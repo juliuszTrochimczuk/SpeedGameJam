@@ -3,7 +3,6 @@ using System.Linq;
 using Player;
 using UnityEngine;
 
-
 namespace PowerUps
 {
     public abstract class AbstractPowerUp : MonoBehaviour
@@ -27,11 +26,21 @@ namespace PowerUps
                 var distance = Vector3.Distance(player.transform.position, player.transform.forward);
                 if (distance < rangeDistance)
                 {
-                    player.GetComponent<PlayerStorage>().AddPowerUp(this);
+                    player.GetComponent<PlayerStorage>().AddPowerUp(CreateCopy(player.transform));
+                    Destroy(this);
                 }
             }
         }
 
         public abstract void Activate();
+
+        protected abstract void DeepCopy(AbstractPowerUp abstractPowerUp);
+
+        private AbstractPowerUp CreateCopy(Transform player) 
+        {
+            AbstractPowerUp newPowerUp = Instantiate(this, player);
+            DeepCopy(newPowerUp);
+            return newPowerUp;
+        }
     }
 }

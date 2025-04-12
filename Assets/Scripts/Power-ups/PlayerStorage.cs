@@ -8,19 +8,23 @@ namespace Player
     {
         private AbstractPowerUp _currentPowerUp;
 
-        void Start()
+        public void Start()
         {
             GameController.Instance.Input.Player.ActivitingPowerUp.performed += _ => ActivatePowerUp();
-        }
-
-        private void ActivatePowerUp()
-        {
-            _currentPowerUp.Activate();
         }
 
         public void AddPowerUp(AbstractPowerUp powerUp)
         {
             _currentPowerUp = powerUp;
+        }
+
+        private void ActivatePowerUp()
+        {
+            if (_currentPowerUp != null)
+            {
+                _currentPowerUp.Activate();
+                Destroy(_currentPowerUp);
+            }
         }
     }
 }
