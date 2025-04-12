@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Controllers;
 using ExtensionMethods;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,10 +7,10 @@ namespace Player
     public class PlayerMovement : MonoBehaviour   
     {
         private PlayerStatesHandler statesHandler;
+        private Rigidbody rb;
 
         [SerializeField] private float maxSpeed;
         [SerializeField] private float angularSpeed;
-        //[SerializeField] private float buttonLerpingTine;
 
         [SerializeField] private AnimationCurve accelerationCurve;
         [SerializeField] private AnimationCurve deccelerationCurve;
@@ -32,7 +28,11 @@ namespace Player
         private float accelerationButtonPressedTime;
         private float rotationButtonPressedTime;
 
-        private float Acceleration
+        private bool isAccelerating;
+        private bool fallOffEnergy;
+        private float detectedRotation;
+
+        public float Acceleration
         {
             get
             {
@@ -40,7 +40,7 @@ namespace Player
             }
         }
 
-        private float AngularSpeed
+        public float AngularSpeed
         {
             get
             {
@@ -54,18 +54,9 @@ namespace Player
         {
             inverseAcceleration = accelerationCurve.Inverse();
             inverseDecceleration = deccelerationCurve.Inverse();
-        }
 
-        private void Start()
-        {
-            GameController.Instance.Input.Player.Acceleration.performed += _ =>
-            {
-                accelerationButtonPressedTime = inverseAcceleration.Evaluate(accelerationButtonPressedTime);
-            };
-            GameController.Instance.Input.Player.Acceleration.canceled += _ =>
-            {
-                accelerationButtonPressedTime = inverseDecceleration.Evaluate(accelerationButtonPressedTime);
-            };
+            statesHandler = GetComponent<PlayerStatesHandler>();
+            rb = GetComponent<Rigidbody>();
         }
 
         private void FixedUpdate()
@@ -79,13 +70,48 @@ namespace Player
             SmoothAcceleration();
             SmoothRotation();
             if (Physics.Raycast(transform.position, Vector3.down, 0.55f, LayerMask.GetMask("Ground")))
+            {
+                fallOffEnergy = false;
+                rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
                 Move();
-            Rotate();
+            }
+            else
+            {
+                rb.constraints = RigidbodyConstraints.None;
+                if (!fallOffEnergy)
+                {
+                    rb.AddForce(currentAcceleration * currentSpeed * Vector3.forward, ForceMode.VelocityChange);
+                    fallOffEnergy = true;
+                }
+            }
+                Rotate();
+        }
+
+        public void DetectAcceleration(InputAction.CallbackContext context)
+        {
+            context.action.performed += _ =>
+            {
+                accelerationButtonPressedTime = inverseAcceleration.Evaluate(accelerationButtonPressedTime);
+                isAccelerating = true;
+            };
+            context.action.canceled += _ =>
+            {
+                accelerationButtonPressedTime = inverseDecceleration.Evaluate(accelerationButtonPressedTime);
+                isAccelerating = false;
+            };
+        }
+
+        public void DetectRotation(InputAction.CallbackContext context)
+        {
+            if (context.action.inProgress)
+                detectedRotation = context.action.ReadValue<float>();
+            else
+                detectedRotation = 0;
         }
 
         private void SmoothAcceleration()
         {
-            if (GameController.Instance.Input.Player.Acceleration.inProgress)
+            if (isAccelerating)
             {
                 currentAcceleration = accelerationCurve.Evaluate(accelerationButtonPressedTime);
                 accelerationButtonPressedTime += Time.fixedDeltaTime;
@@ -103,22 +129,18 @@ namespace Player
 
         private void SmoothRotation()
         {
-            float direction = GameController.Instance.Input.Player.Rotation.ReadValue<float>();
             currentRotation = angularCurve.Evaluate(rotationButtonPressedTime);
-            if (GameController.Instance.Input.Player.Rotation.inProgress)
+            if (detectedRotation < 0)
             {
-                if (direction < 0)
-                {
-                    rotationButtonPressedTime -= Time.fixedDeltaTime;
-                    if (rotationButtonPressedTime < -1)
-                        rotationButtonPressedTime = -1;
-                }
-                else if (direction > 0)
-                {
-                    rotationButtonPressedTime += Time.fixedDeltaTime;
-                    if (rotationButtonPressedTime > 1)
-                        rotationButtonPressedTime = 1;
-                }
+                rotationButtonPressedTime -= Time.fixedDeltaTime;
+                if (rotationButtonPressedTime < -1)
+                    rotationButtonPressedTime = -1;
+            }
+            else if (detectedRotation > 0)
+            {
+                rotationButtonPressedTime += Time.fixedDeltaTime;
+                if (rotationButtonPressedTime > 1)
+                    rotationButtonPressedTime = 1;
             }
             else
             {
