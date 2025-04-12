@@ -45,7 +45,6 @@ public class CameraRotationController : MonoBehaviour
             target.Rotate(Vector3.up, _rotationX * Time.deltaTime);
         }else{
             target.Rotate(Vector3.up, (playerTransform.forward.x-target.forward.x)*backRotationSpeed * Time.deltaTime);
-            Debug.Log(target.forward + " "+ playerTransform.forward);
         }
         
     }
