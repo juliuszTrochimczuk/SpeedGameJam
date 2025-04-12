@@ -46,13 +46,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""BasicMovement"",
-                    ""type"": ""Value"",
-                    ""id"": ""d6df7472-db57-4fa9-b910-d352af15c013"",
-                    ""expectedControlType"": ""Vector2"",
+                    ""name"": ""ActivatingPowerUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""131816b1-fd56-48b0-b287-cdca3ee0b273"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": true
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -101,59 +101,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""2D Vector"",
-                    ""id"": ""d73c9ecb-aa2f-46d2-a466-a22f3832577f"",
-                    ""path"": ""2DVector"",
+                    ""name"": """",
+                    ""id"": ""9beea2bc-c73f-4071-9607-b632afaf4fb0"",
+                    ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""BasicMovement"",
-                    ""isComposite"": true,
+                    ""action"": ""ActivatingPowerUp"",
+                    ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""ec53ce08-758d-4383-8e4b-a50ae4dca4bd"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""BasicMovement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""4a1e3d96-5651-4ad5-9f1e-83d494f3edac"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""BasicMovement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""53778ee9-6632-4a92-aa78-ad3e8a05a8b7"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""BasicMovement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""b0934487-436a-4629-839d-348f30e32a65"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""BasicMovement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -231,7 +187,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Acceleration = m_Player.FindAction("Acceleration", throwIfNotFound: true);
         m_Player_Rotation = m_Player.FindAction("Rotation", throwIfNotFound: true);
-        m_Player_BasicMovement = m_Player.FindAction("BasicMovement", throwIfNotFound: true);
+        m_Player_ActivatingPowerUp = m_Player.FindAction("ActivatingPowerUp", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
     }
@@ -303,14 +259,14 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Acceleration;
     private readonly InputAction m_Player_Rotation;
-    private readonly InputAction m_Player_BasicMovement;
+    private readonly InputAction m_Player_ActivatingPowerUp;
     public struct PlayerActions
     {
         private @InputSystem_Actions m_Wrapper;
         public PlayerActions(@InputSystem_Actions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Acceleration => m_Wrapper.m_Player_Acceleration;
         public InputAction @Rotation => m_Wrapper.m_Player_Rotation;
-        public InputAction @BasicMovement => m_Wrapper.m_Player_BasicMovement;
+        public InputAction @ActivatingPowerUp => m_Wrapper.m_Player_ActivatingPowerUp;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -326,9 +282,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Rotation.started += instance.OnRotation;
             @Rotation.performed += instance.OnRotation;
             @Rotation.canceled += instance.OnRotation;
-            @BasicMovement.started += instance.OnBasicMovement;
-            @BasicMovement.performed += instance.OnBasicMovement;
-            @BasicMovement.canceled += instance.OnBasicMovement;
+            @ActivatingPowerUp.started += instance.OnActivatingPowerUp;
+            @ActivatingPowerUp.performed += instance.OnActivatingPowerUp;
+            @ActivatingPowerUp.canceled += instance.OnActivatingPowerUp;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -339,9 +295,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Rotation.started -= instance.OnRotation;
             @Rotation.performed -= instance.OnRotation;
             @Rotation.canceled -= instance.OnRotation;
-            @BasicMovement.started -= instance.OnBasicMovement;
-            @BasicMovement.performed -= instance.OnBasicMovement;
-            @BasicMovement.canceled -= instance.OnBasicMovement;
+            @ActivatingPowerUp.started -= instance.OnActivatingPowerUp;
+            @ActivatingPowerUp.performed -= instance.OnActivatingPowerUp;
+            @ActivatingPowerUp.canceled -= instance.OnActivatingPowerUp;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -446,7 +402,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     {
         void OnAcceleration(InputAction.CallbackContext context);
         void OnRotation(InputAction.CallbackContext context);
-        void OnBasicMovement(InputAction.CallbackContext context);
+        void OnActivatingPowerUp(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
