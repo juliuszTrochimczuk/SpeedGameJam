@@ -17,20 +17,24 @@ namespace Player
         [SerializeField] private AnimationCurve accelerationCurve;
         [SerializeField] private AnimationCurve deccelerationCurve;
         [SerializeField] private AnimationCurve angularCurve;
-        [SerializeField] private float angularAcceleration;
 
         private AnimationCurve inverseAcceleration;
         private AnimationCurve inverseDecceleration;
+
         private float currentAcceleration;
         private float currentRotation;
-        private float buttonPressedTime;
+
+        private float currentSpeed;
+        private float currentAngularSpeed;
+
+        private float accelerationButtonPressedTime;
+        private float rotationButtonPressedTime;
 
         private float Acceleration
         {
             get
             {
-                Debug.Log(currentAcceleration * maxSpeed * Time.fixedDeltaTime);
-                return currentAcceleration * maxSpeed * Time.fixedDeltaTime;
+                return currentAcceleration * currentSpeed * Time.fixedDeltaTime;
             }
         }
 
@@ -38,7 +42,7 @@ namespace Player
         {
             get
             {
-                return currentRotation * angularSpeed * Time.fixedDeltaTime;
+                return currentRotation * currentAngularSpeed * Time.fixedDeltaTime;
             }
         }
 
@@ -52,16 +56,19 @@ namespace Player
         {
             GameController.Instance.Input.Player.Acceleration.performed += _ =>
             {
-                buttonPressedTime = inverseAcceleration.Evaluate(buttonPressedTime);
+                accelerationButtonPressedTime = inverseAcceleration.Evaluate(accelerationButtonPressedTime);
             };
             GameController.Instance.Input.Player.Acceleration.canceled += _ =>
             {
-                buttonPressedTime = deccelerationCurve.Evaluate(buttonPressedTime);
+                accelerationButtonPressedTime = inverseDecceleration.Evaluate(accelerationButtonPressedTime);
             };
         }
 
         private void FixedUpdate()
         {
+            currentSpeed = Mathf.Lerp(0, maxSpeed, accelerationButtonPressedTime);
+            currentAngularSpeed = Mathf.Lerp(0, angularSpeed, Mathf.Abs(rotationButtonPressedTime)) * accelerationButtonPressedTime;
+
             SmoothAcceleration();
             SmoothRotation();
             if (Physics.Raycast(transform.position, Vector3.down, 0.55f, LayerMask.GetMask("Ground")))
@@ -73,32 +80,45 @@ namespace Player
         {
             if (GameController.Instance.Input.Player.Acceleration.inProgress)
             {
-                currentAcceleration = accelerationCurve.Evaluate(Mathf.Lerp(0, 1, buttonPressedTime));
-                buttonPressedTime += Time.fixedDeltaTime;
-                if (buttonPressedTime > 1)
-                    buttonPressedTime = 1;
+                currentAcceleration = accelerationCurve.Evaluate(accelerationButtonPressedTime);
+                accelerationButtonPressedTime += Time.fixedDeltaTime;
+                if (accelerationButtonPressedTime > 1)
+                    accelerationButtonPressedTime = 1;
             }
             else
             {
-                currentAcceleration = deccelerationCurve.Evaluate(Mathf.Lerp(0, 1, buttonPressedTime));
-                buttonPressedTime -= Time.fixedDeltaTime;
-                if (buttonPressedTime < 0)
-                    buttonPressedTime = 0;
+                currentAcceleration = deccelerationCurve.Evaluate(accelerationButtonPressedTime);
+                accelerationButtonPressedTime -= Time.fixedDeltaTime;
+                if (accelerationButtonPressedTime < 0)
+                    accelerationButtonPressedTime = 0;
             }
         }
 
         private void SmoothRotation()
         {
-            float rotation = GameController.Instance.Input.Player.Rotation.ReadValue<float>();
+            float direction = GameController.Instance.Input.Player.Rotation.ReadValue<float>();
+            currentRotation = angularCurve.Evaluate(rotationButtonPressedTime);
+            if (GameController.Instance.Input.Player.Rotation.inProgress)
+            {
+                if (direction < 0)
+                {
+                    rotationButtonPressedTime -= Time.fixedDeltaTime;
+                    if (rotationButtonPressedTime < -1)
+                        rotationButtonPressedTime = -1;
+                }
+                else if (direction > 0)
+                {
+                    rotationButtonPressedTime += Time.fixedDeltaTime;
+                    if (rotationButtonPressedTime > 1)
+                        rotationButtonPressedTime = 1;
+                }
+            }
+            else
+                rotationButtonPressedTime = 0;
         }
 
         private void Move() => transform.Translate(Acceleration * Vector3.forward, Space.Self);
 
-        private void Rotate()
-        {
-            float rotation = GameController.Instance.Input.Player.Rotation.ReadValue<float>();
-            currentRotation = rotation;
-            transform.Rotate(AngularSpeed * Vector3.up, Space.World);
-        }
+        private void Rotate() => transform.Rotate(AngularSpeed * Vector3.up, Space.World);
     }
 }
