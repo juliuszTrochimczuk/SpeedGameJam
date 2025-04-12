@@ -32,11 +32,17 @@ namespace Player
         private bool fallOffEnergy;
         private float detectedRotation;
 
-        public float Acceleration
+        public float Speed
         {
             get
             {
-                return currentAcceleration * currentSpeed * Time.fixedDeltaTime;
+                return currentAcceleration * currentSpeed;
+            }
+            set
+            {
+                if (value < 0)
+                    value = 0;
+                currentSpeed = value;
             }
         }
 
@@ -44,11 +50,10 @@ namespace Player
         {
             get
             {
-                return currentRotation * currentAngularSpeed * Time.fixedDeltaTime;
+                return currentRotation * currentAngularSpeed;
             }
         }
 
-        public float Speed => currentSpeed;
 
         private void Awake()
         {
@@ -69,7 +74,7 @@ namespace Player
 
             SmoothAcceleration();
             SmoothRotation();
-            if (Physics.Raycast(transform.position, Vector3.down, 0.55f, LayerMask.GetMask("Ground")))
+            if (Physics.Raycast(transform.position, Vector3.down, Mathf.Infinity, LayerMask.GetMask("Ground")))
             {
                 fallOffEnergy = false;
                 rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
@@ -80,7 +85,7 @@ namespace Player
                 rb.constraints = RigidbodyConstraints.None;
                 if (!fallOffEnergy)
                 {
-                    rb.AddForce(currentAcceleration * currentSpeed * Vector3.forward, ForceMode.VelocityChange);
+                    rb.AddForce(Speed * transform.forward, ForceMode.VelocityChange);
                     fallOffEnergy = true;
                 }
             }
@@ -159,8 +164,8 @@ namespace Player
             }
         }
 
-        private void Move() => transform.Translate(Acceleration * Vector3.forward, Space.Self);
+        private void Move() => transform.Translate(Speed * Time.fixedDeltaTime * Vector3.forward, Space.Self);
 
-        private void Rotate() => transform.Rotate(AngularSpeed * Vector3.up, Space.World);
+        private void Rotate() => transform.Rotate(AngularSpeed * Time.fixedDeltaTime * Vector3.up, Space.World);
     }
 }

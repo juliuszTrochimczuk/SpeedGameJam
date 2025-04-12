@@ -180,6 +180,7 @@ GameObject:
   - component: {fileID: 5766199502341051754}
   - component: {fileID: 7413735053718502200}
   - component: {fileID: 5301268137465373448}
+  - component: {fileID: 3107742788358099400}
   - component: {fileID: 6232068086213225659}
   m_Layer: 0
   m_Name: Player_Object
@@ -302,7 +303,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
 --- !u!114 &6306884246339471636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -327,8 +328,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d46ad44096a81894786c4095786fed09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 5
-  angularSpeed: 30
+  maxSpeed: 7.5
+  angularSpeed: 120
   accelerationCurve:
     serializedVersion: 2
     m_Curve:
@@ -383,29 +384,29 @@ MonoBehaviour:
     - serializedVersion: 3
       time: -1
       value: -1
-      inSlope: 0
-      outSlope: 0
+      inSlope: 1.0578268
+      outSlope: 1.0578268
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.15606934
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: -0.059710078
-      outSlope: -0.059710078
+      inSlope: -0
+      outSlope: -0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.11849711
+      outWeight: 0.20231214
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 2.3636968
-      outSlope: 2.3636968
+      inSlope: 0.8017213
+      outSlope: 0.8017213
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.04190749
+      inWeight: 0.1647399
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -422,6 +423,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc36b67fdf654144ae5464a49071b99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speedDecreasingTime: 5
+  strength: 1
 --- !u!114 &5301268137465373448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -432,6 +435,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72cac0d66eef0e645814b5a72404e666, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3107742788358099400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6074055995160120098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13eb4293d0ba0a14589c88b94ec92c1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &6232068086213225659
@@ -694,8 +709,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TrackedObjectOffset: {x: 0, y: 1.75, z: 0}
-  m_LookaheadTime: 0
-  m_LookaheadSmoothing: 0
+  m_LookaheadTime: 0.15
+  m_LookaheadSmoothing: 5
   m_LookaheadIgnoreY: 0
   m_HorizontalDamping: 0.5
   m_VerticalDamping: 0.5
@@ -720,13 +735,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa7155796051b734daa718462081dc5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BindingMode: 1
+  m_BindingMode: 3
   m_FollowOffset: {x: 0, y: 1.5, z: -5}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
-  m_AngularDampingMode: 0
+  m_AngularDampingMode: 1
   m_PitchDamping: 0
   m_YawDamping: 0
   m_RollDamping: 0
-  m_AngularDamping: 0
+  m_AngularDamping: 1
