@@ -493,7 +493,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -885,7 +885,7 @@ GameObject:
   - component: {fileID: 1783699062}
   - component: {fileID: 1783699061}
   - component: {fileID: 1783699065}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Zone1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1017,7 +1017,7 @@ GameObject:
   - component: {fileID: 1843067779}
   - component: {fileID: 1843067778}
   - component: {fileID: 1843067777}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Zone3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1123,7 +1123,7 @@ GameObject:
   - component: {fileID: 1964599720}
   - component: {fileID: 1964599719}
   - component: {fileID: 1964599723}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Zone2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
