@@ -176,7 +176,10 @@ GameObject:
   - component: {fileID: 7289887682084945631}
   - component: {fileID: 2628932748402091617}
   - component: {fileID: 6695984781895133738}
+  - component: {fileID: 6306884246339471636}
   - component: {fileID: 5766199502341051754}
+  - component: {fileID: 7413735053718502200}
+  - component: {fileID: 5301268137465373448}
   - component: {fileID: 6232068086213225659}
   m_Layer: 0
   m_Name: Player_Object
@@ -300,6 +303,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6306884246339471636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6074055995160120098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be0a8f780f9c6184386963bbb02dd2dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5766199502341051754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -386,6 +401,30 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7413735053718502200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6074055995160120098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcc36b67fdf654144ae5464a49071b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5301268137465373448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6074055995160120098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72cac0d66eef0e645814b5a72404e666, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6232068086213225659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,9 +484,37 @@ MonoBehaviour:
     m_ActionId: 3e242226-42ff-4b88-ae6c-e3185fbc9af0
     m_ActionName: Player/Rotation[/Keyboard/a,/Keyboard/d,/Gamepad/rightStick/left,/Gamepad/rightStick/right]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5301268137465373448}
+        m_TargetAssemblyTypeName: Player.PlayerStorage, Assembly-CSharp
+        m_MethodName: ActivatePowerUp
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 131816b1-fd56-48b0-b287-cdca3ee0b273
     m_ActionName: Player/ActivatingPowerUp[/Gamepad/dpad/down,/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7413735053718502200}
+        m_TargetAssemblyTypeName: Player.PlayerSpinning, Assembly-CSharp
+        m_MethodName: Spinning
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c4f3c6b5-ff09-4b93-9767-10c078234938
+    m_ActionName: Player/Spinning[/Keyboard/leftShift,/DualSenseGamepadHID/rightShoulder]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

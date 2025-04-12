@@ -4,8 +4,10 @@ using UnityEngine.InputSystem;
 
 namespace Player
 {
-    public class PlayerMovement : MonoBehaviour
+    public class PlayerMovement : MonoBehaviour   
     {
+        private PlayerStatesHandler statesHandler;
+
         [SerializeField] private float maxSpeed;
         [SerializeField] private float angularSpeed;
 
@@ -44,14 +46,21 @@ namespace Player
             }
         }
 
+        public float Speed => currentSpeed;
+
         private void Awake()
         {
             inverseAcceleration = accelerationCurve.Inverse();
             inverseDecceleration = deccelerationCurve.Inverse();
+
+            statesHandler = GetComponent<PlayerStatesHandler>();
         }
 
         private void FixedUpdate()
         {
+            if (statesHandler.CurrentState != PlayerStatesHandler.PlayerState.Moving)
+                return;
+
             currentSpeed = Mathf.Lerp(0, maxSpeed, accelerationButtonPressedTime);
             currentAngularSpeed = Mathf.Lerp(0, angularSpeed, Mathf.Abs(rotationButtonPressedTime)) * accelerationButtonPressedTime;
 
