@@ -28,9 +28,27 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             ""id"": ""df70fa95-8a34-4494-b137-73ab6b9c7d37"",
             ""actions"": [
                 {
-                    ""name"": ""ActivitingPowerUp"",
+                    ""name"": ""Acceleration"",
+                    ""type"": ""Value"",
+                    ""id"": ""a6f87005-003e-4826-b260-a243d83fdd59"",
+                    ""expectedControlType"": ""Double"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Rotation"",
+                    ""type"": ""Value"",
+                    ""id"": ""3e242226-42ff-4b88-ae6c-e3185fbc9af0"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ActivatingPowerUp"",
                     ""type"": ""Button"",
-                    ""id"": ""a9d47e50-b611-40d1-91d3-6980f648c26f"",
+                    ""id"": ""131816b1-fd56-48b0-b287-cdca3ee0b273"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -40,12 +58,56 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""14d4865d-ed41-45f4-a1bb-957a4697a858"",
+                    ""id"": ""2ffd9b11-b36c-430d-99eb-4cf9c5b0413d"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Acceleration"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""fbf9c375-6b37-458b-8fa4-0c006a044e8f"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotation"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""d887cb4f-37d5-4e71-b6dc-78634dc4924e"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""5bc69590-692b-4c1e-b9de-f2b130508441"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9beea2bc-c73f-4071-9607-b632afaf4fb0"",
                     ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ActivitingPowerUp"",
+                    ""action"": ""ActivatingPowerUp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -123,7 +185,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_ActivitingPowerUp = m_Player.FindAction("ActivitingPowerUp", throwIfNotFound: true);
+        m_Player_Acceleration = m_Player.FindAction("Acceleration", throwIfNotFound: true);
+        m_Player_Rotation = m_Player.FindAction("Rotation", throwIfNotFound: true);
+        m_Player_ActivatingPowerUp = m_Player.FindAction("ActivatingPowerUp", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
     }
@@ -193,12 +257,16 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     // Player
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
-    private readonly InputAction m_Player_ActivitingPowerUp;
+    private readonly InputAction m_Player_Acceleration;
+    private readonly InputAction m_Player_Rotation;
+    private readonly InputAction m_Player_ActivatingPowerUp;
     public struct PlayerActions
     {
         private @InputSystem_Actions m_Wrapper;
         public PlayerActions(@InputSystem_Actions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @ActivitingPowerUp => m_Wrapper.m_Player_ActivitingPowerUp;
+        public InputAction @Acceleration => m_Wrapper.m_Player_Acceleration;
+        public InputAction @Rotation => m_Wrapper.m_Player_Rotation;
+        public InputAction @ActivatingPowerUp => m_Wrapper.m_Player_ActivatingPowerUp;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -208,16 +276,28 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
-            @ActivitingPowerUp.started += instance.OnActivitingPowerUp;
-            @ActivitingPowerUp.performed += instance.OnActivitingPowerUp;
-            @ActivitingPowerUp.canceled += instance.OnActivitingPowerUp;
+            @Acceleration.started += instance.OnAcceleration;
+            @Acceleration.performed += instance.OnAcceleration;
+            @Acceleration.canceled += instance.OnAcceleration;
+            @Rotation.started += instance.OnRotation;
+            @Rotation.performed += instance.OnRotation;
+            @Rotation.canceled += instance.OnRotation;
+            @ActivatingPowerUp.started += instance.OnActivatingPowerUp;
+            @ActivatingPowerUp.performed += instance.OnActivatingPowerUp;
+            @ActivatingPowerUp.canceled += instance.OnActivatingPowerUp;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
         {
-            @ActivitingPowerUp.started -= instance.OnActivitingPowerUp;
-            @ActivitingPowerUp.performed -= instance.OnActivitingPowerUp;
-            @ActivitingPowerUp.canceled -= instance.OnActivitingPowerUp;
+            @Acceleration.started -= instance.OnAcceleration;
+            @Acceleration.performed -= instance.OnAcceleration;
+            @Acceleration.canceled -= instance.OnAcceleration;
+            @Rotation.started -= instance.OnRotation;
+            @Rotation.performed -= instance.OnRotation;
+            @Rotation.canceled -= instance.OnRotation;
+            @ActivatingPowerUp.started -= instance.OnActivatingPowerUp;
+            @ActivatingPowerUp.performed -= instance.OnActivatingPowerUp;
+            @ActivatingPowerUp.canceled -= instance.OnActivatingPowerUp;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -320,7 +400,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     }
     public interface IPlayerActions
     {
-        void OnActivitingPowerUp(InputAction.CallbackContext context);
+        void OnAcceleration(InputAction.CallbackContext context);
+        void OnRotation(InputAction.CallbackContext context);
+        void OnActivatingPowerUp(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

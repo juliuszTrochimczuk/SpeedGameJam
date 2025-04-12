@@ -10,7 +10,7 @@ namespace Player
 
         public void Start()
         {
-            GameController.Instance.Input.Player.ActivitingPowerUp.performed += _ => ActivatePowerUp();
+            GameController.Instance.Input.Player.ActivatingPowerUp.performed += _ => ActivatePowerUp();
         }
 
         public void AddPowerUp(AbstractPowerUp powerUp)
