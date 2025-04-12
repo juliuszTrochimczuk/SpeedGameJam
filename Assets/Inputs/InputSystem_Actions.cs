@@ -53,6 +53,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Spinning"",
+                    ""type"": ""Button"",
+                    ""id"": ""c4f3c6b5-ff09-4b93-9767-10c078234938"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -108,6 +117,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ActivatingPowerUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f155aa1e-1dbe-44aa-a017-97f35747a8b3"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Spinning"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -188,6 +208,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Acceleration = m_Player.FindAction("Acceleration", throwIfNotFound: true);
         m_Player_Rotation = m_Player.FindAction("Rotation", throwIfNotFound: true);
         m_Player_ActivatingPowerUp = m_Player.FindAction("ActivatingPowerUp", throwIfNotFound: true);
+        m_Player_Spinning = m_Player.FindAction("Spinning", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
     }
@@ -260,6 +281,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Acceleration;
     private readonly InputAction m_Player_Rotation;
     private readonly InputAction m_Player_ActivatingPowerUp;
+    private readonly InputAction m_Player_Spinning;
     public struct PlayerActions
     {
         private @InputSystem_Actions m_Wrapper;
@@ -267,6 +289,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         public InputAction @Acceleration => m_Wrapper.m_Player_Acceleration;
         public InputAction @Rotation => m_Wrapper.m_Player_Rotation;
         public InputAction @ActivatingPowerUp => m_Wrapper.m_Player_ActivatingPowerUp;
+        public InputAction @Spinning => m_Wrapper.m_Player_Spinning;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -285,6 +308,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @ActivatingPowerUp.started += instance.OnActivatingPowerUp;
             @ActivatingPowerUp.performed += instance.OnActivatingPowerUp;
             @ActivatingPowerUp.canceled += instance.OnActivatingPowerUp;
+            @Spinning.started += instance.OnSpinning;
+            @Spinning.performed += instance.OnSpinning;
+            @Spinning.canceled += instance.OnSpinning;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -298,6 +324,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @ActivatingPowerUp.started -= instance.OnActivatingPowerUp;
             @ActivatingPowerUp.performed -= instance.OnActivatingPowerUp;
             @ActivatingPowerUp.canceled -= instance.OnActivatingPowerUp;
+            @Spinning.started -= instance.OnSpinning;
+            @Spinning.performed -= instance.OnSpinning;
+            @Spinning.canceled -= instance.OnSpinning;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -403,6 +432,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         void OnAcceleration(InputAction.CallbackContext context);
         void OnRotation(InputAction.CallbackContext context);
         void OnActivatingPowerUp(InputAction.CallbackContext context);
+        void OnSpinning(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
