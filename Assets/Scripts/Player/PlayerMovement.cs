@@ -122,9 +122,18 @@ namespace Player
             }
             else
             {
-                rotationButtonPressedTime -= Time.fixedDeltaTime;
-                if (rotationButtonPressedTime < 0)
-                    rotationButtonPressedTime = 0;             
+                if (rotationButtonPressedTime > 0)
+                {
+                    rotationButtonPressedTime -= Time.fixedDeltaTime;
+                    if (rotationButtonPressedTime < 0)
+                        rotationButtonPressedTime = 0;
+                }
+                else if (rotationButtonPressedTime < 0)
+                {
+                    rotationButtonPressedTime += Time.fixedDeltaTime;
+                    if (rotationButtonPressedTime > 0)
+                        rotationButtonPressedTime = 0;
+                }
             }
         }
 
