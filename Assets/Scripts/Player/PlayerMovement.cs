@@ -8,8 +8,10 @@ using UnityEngine.InputSystem;
 
 namespace Player
 {
-    public class PlayerMovement : MonoBehaviour
+    public class PlayerMovement : MonoBehaviour   
     {
+        private PlayerStatesHandler statesHandler;
+
         [SerializeField] private float maxSpeed;
         [SerializeField] private float angularSpeed;
         //[SerializeField] private float buttonLerpingTine;
@@ -46,6 +48,8 @@ namespace Player
             }
         }
 
+        public float Speed => currentSpeed;
+
         private void Awake()
         {
             inverseAcceleration = accelerationCurve.Inverse();
@@ -66,6 +70,9 @@ namespace Player
 
         private void FixedUpdate()
         {
+            if (statesHandler.CurrentState != PlayerStatesHandler.PlayerState.Moving)
+                return;
+
             currentSpeed = Mathf.Lerp(0, maxSpeed, accelerationButtonPressedTime);
             currentAngularSpeed = Mathf.Lerp(0, angularSpeed, Mathf.Abs(rotationButtonPressedTime)) * accelerationButtonPressedTime;
 
@@ -114,7 +121,20 @@ namespace Player
                 }
             }
             else
-                rotationButtonPressedTime = 0;
+            {
+                if (rotationButtonPressedTime > 0)
+                {
+                    rotationButtonPressedTime -= Time.fixedDeltaTime;
+                    if (rotationButtonPressedTime < 0)
+                        rotationButtonPressedTime = 0;
+                }
+                else if (rotationButtonPressedTime < 0)
+                {
+                    rotationButtonPressedTime += Time.fixedDeltaTime;
+                    if (rotationButtonPressedTime > 0)
+                        rotationButtonPressedTime = 0;
+                }
+            }
         }
 
         private void Move() => transform.Translate(Acceleration * Vector3.forward, Space.Self);
