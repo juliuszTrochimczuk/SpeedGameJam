@@ -73,10 +73,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""MouseY"",
-                    ""type"": ""PassThrough"",
+                    ""name"": ""CareraRotationSwitch"",
+                    ""type"": ""Button"",
                     ""id"": ""c2e780e5-8748-4b21-ac54-354537950a41"",
-                    ""expectedControlType"": ""Axis"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -163,11 +163,11 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""37f8cf2b-7a85-432b-bf62-d33c1c117fcb"",
-                    ""path"": ""<Mouse>/delta/y"",
+                    ""path"": ""<Keyboard>/alt"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""MouseY"",
+                    ""action"": ""CareraRotationSwitch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -250,7 +250,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_ActivatingPowerUp = m_Player.FindAction("ActivatingPowerUp", throwIfNotFound: true);
         m_Player_Spinning = m_Player.FindAction("Spinning", throwIfNotFound: true);
         m_Player_MouseX = m_Player.FindAction("MouseX", throwIfNotFound: true);
-        m_Player_MouseY = m_Player.FindAction("MouseY", throwIfNotFound: true);
+        m_Player_CareraRotationSwitch = m_Player.FindAction("CareraRotationSwitch", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
     }
@@ -325,7 +325,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ActivatingPowerUp;
     private readonly InputAction m_Player_Spinning;
     private readonly InputAction m_Player_MouseX;
-    private readonly InputAction m_Player_MouseY;
+    private readonly InputAction m_Player_CareraRotationSwitch;
     public struct PlayerActions
     {
         private @InputSystem_Actions m_Wrapper;
@@ -335,7 +335,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         public InputAction @ActivatingPowerUp => m_Wrapper.m_Player_ActivatingPowerUp;
         public InputAction @Spinning => m_Wrapper.m_Player_Spinning;
         public InputAction @MouseX => m_Wrapper.m_Player_MouseX;
-        public InputAction @MouseY => m_Wrapper.m_Player_MouseY;
+        public InputAction @CareraRotationSwitch => m_Wrapper.m_Player_CareraRotationSwitch;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -360,9 +360,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @MouseX.started += instance.OnMouseX;
             @MouseX.performed += instance.OnMouseX;
             @MouseX.canceled += instance.OnMouseX;
-            @MouseY.started += instance.OnMouseY;
-            @MouseY.performed += instance.OnMouseY;
-            @MouseY.canceled += instance.OnMouseY;
+            @CareraRotationSwitch.started += instance.OnCareraRotationSwitch;
+            @CareraRotationSwitch.performed += instance.OnCareraRotationSwitch;
+            @CareraRotationSwitch.canceled += instance.OnCareraRotationSwitch;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -382,9 +382,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @MouseX.started -= instance.OnMouseX;
             @MouseX.performed -= instance.OnMouseX;
             @MouseX.canceled -= instance.OnMouseX;
-            @MouseY.started -= instance.OnMouseY;
-            @MouseY.performed -= instance.OnMouseY;
-            @MouseY.canceled -= instance.OnMouseY;
+            @CareraRotationSwitch.started -= instance.OnCareraRotationSwitch;
+            @CareraRotationSwitch.performed -= instance.OnCareraRotationSwitch;
+            @CareraRotationSwitch.canceled -= instance.OnCareraRotationSwitch;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -492,7 +492,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         void OnActivatingPowerUp(InputAction.CallbackContext context);
         void OnSpinning(InputAction.CallbackContext context);
         void OnMouseX(InputAction.CallbackContext context);
-        void OnMouseY(InputAction.CallbackContext context);
+        void OnCareraRotationSwitch(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

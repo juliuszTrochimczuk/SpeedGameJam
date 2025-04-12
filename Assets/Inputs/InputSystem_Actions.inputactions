@@ -51,10 +51,10 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "MouseY",
-                    "type": "PassThrough",
+                    "name": "CareraRotationSwitch",
+                    "type": "Button",
                     "id": "c2e780e5-8748-4b21-ac54-354537950a41",
-                    "expectedControlType": "Axis",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -141,11 +141,11 @@
                 {
                     "name": "",
                     "id": "37f8cf2b-7a85-432b-bf62-d33c1c117fcb",
-                    "path": "<Mouse>/delta/y",
+                    "path": "<Keyboard>/alt",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "MouseY",
+                    "action": "CareraRotationSwitch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
