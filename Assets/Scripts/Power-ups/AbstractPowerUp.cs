@@ -1,32 +1,37 @@
 using System.Collections.Generic;
 using System.Linq;
+using Player;
 using UnityEngine;
 
-public abstract class AbstractPowerUp : MonoBehaviour
+
+namespace PowerUps
 {
-    private List<GameObject> players;
-    [SerializeField]
-    private float rangeDistance;
-
-    public void Awake()
+    public abstract class AbstractPowerUp : MonoBehaviour
     {
-        players = GameObject.FindGameObjectsWithTag("Player").ToList();
-    }
+        private List<GameObject> players;
+        [SerializeField]
+        private float rangeDistance;
 
-    public void FixedUpdate()
-    {
-        foreach (var player in players)
+        public void Awake()
         {
-            if (player == null)
-                players.Remove(player);
+            players = GameObject.FindGameObjectsWithTag("Player").ToList();
+        }
 
-            var distance = Vector3.Distance(player.transform.position, player.transform.forward);
-            if (distance < rangeDistance)
+        public void FixedUpdate()
+        {
+            foreach (var player in players)
             {
-                Activate();
+                if (player == null)
+                    players.Remove(player);
+
+                var distance = Vector3.Distance(player.transform.position, player.transform.forward);
+                if (distance < rangeDistance)
+                {
+                    player.GetComponent<PlayerStorage>().AddPowerUp(this);
+                }
             }
         }
-    }
 
-    public abstract void Activate();
+        public abstract void Activate();
+    }
 }

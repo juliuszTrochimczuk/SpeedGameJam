@@ -26,8 +26,30 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         {
             ""name"": ""Player"",
             ""id"": ""df70fa95-8a34-4494-b137-73ab6b9c7d37"",
-            ""actions"": [],
-            ""bindings"": []
+            ""actions"": [
+                {
+                    ""name"": ""ActivitingPowerUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""a9d47e50-b611-40d1-91d3-6980f648c26f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""14d4865d-ed41-45f4-a1bb-957a4697a858"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ActivitingPowerUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         },
         {
             ""name"": ""UI"",
@@ -101,6 +123,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
+        m_Player_ActivitingPowerUp = m_Player.FindAction("ActivitingPowerUp", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
     }
@@ -170,10 +193,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     // Player
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
+    private readonly InputAction m_Player_ActivitingPowerUp;
     public struct PlayerActions
     {
         private @InputSystem_Actions m_Wrapper;
         public PlayerActions(@InputSystem_Actions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ActivitingPowerUp => m_Wrapper.m_Player_ActivitingPowerUp;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -183,10 +208,16 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
+            @ActivitingPowerUp.started += instance.OnActivitingPowerUp;
+            @ActivitingPowerUp.performed += instance.OnActivitingPowerUp;
+            @ActivitingPowerUp.canceled += instance.OnActivitingPowerUp;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
         {
+            @ActivitingPowerUp.started -= instance.OnActivitingPowerUp;
+            @ActivitingPowerUp.performed -= instance.OnActivitingPowerUp;
+            @ActivitingPowerUp.canceled -= instance.OnActivitingPowerUp;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -289,6 +320,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     }
     public interface IPlayerActions
     {
+        void OnActivitingPowerUp(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
