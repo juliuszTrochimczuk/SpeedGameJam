@@ -7,6 +7,7 @@ namespace Player
     public class PlayerMovement : MonoBehaviour   
     {
         private PlayerStatesHandler statesHandler;
+        private Rigidbody rb;
 
         [SerializeField] private float maxSpeed;
         [SerializeField] private float angularSpeed;
@@ -28,9 +29,10 @@ namespace Player
         private float rotationButtonPressedTime;
 
         private bool isAccelerating;
+        private bool fallOffEnergy;
         private float detectedRotation;
 
-        private float Acceleration
+        public float Acceleration
         {
             get
             {
@@ -38,7 +40,7 @@ namespace Player
             }
         }
 
-        private float AngularSpeed
+        public float AngularSpeed
         {
             get
             {
@@ -54,6 +56,7 @@ namespace Player
             inverseDecceleration = deccelerationCurve.Inverse();
 
             statesHandler = GetComponent<PlayerStatesHandler>();
+            rb = GetComponent<Rigidbody>();
         }
 
         private void FixedUpdate()
@@ -67,8 +70,21 @@ namespace Player
             SmoothAcceleration();
             SmoothRotation();
             if (Physics.Raycast(transform.position, Vector3.down, 0.55f, LayerMask.GetMask("Ground")))
+            {
+                fallOffEnergy = false;
+                rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
                 Move();
-            Rotate();
+            }
+            else
+            {
+                rb.constraints = RigidbodyConstraints.None;
+                if (!fallOffEnergy)
+                {
+                    rb.AddForce(currentAcceleration * currentSpeed * Vector3.forward, ForceMode.VelocityChange);
+                    fallOffEnergy = true;
+                }
+            }
+                Rotate();
         }
 
         public void DetectAcceleration(InputAction.CallbackContext context)
@@ -125,6 +141,21 @@ namespace Player
                 rotationButtonPressedTime += Time.fixedDeltaTime;
                 if (rotationButtonPressedTime > 1)
                     rotationButtonPressedTime = 1;
+            }
+            else
+            {
+                if (rotationButtonPressedTime > 0)
+                {
+                    rotationButtonPressedTime -= Time.fixedDeltaTime;
+                    if (rotationButtonPressedTime < 0)
+                        rotationButtonPressedTime = 0;
+                }
+                else if (rotationButtonPressedTime < 0)
+                {
+                    rotationButtonPressedTime += Time.fixedDeltaTime;
+                    if (rotationButtonPressedTime > 0)
+                        rotationButtonPressedTime = 0;
+                }
             }
         }
 

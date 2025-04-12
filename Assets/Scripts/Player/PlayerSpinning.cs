@@ -15,6 +15,14 @@ namespace Player
             statesHandler = GetComponent<PlayerStatesHandler>();
         }
 
+        private void FixedUpdate()
+        {
+            if (statesHandler.CurrentState != PlayerStatesHandler.PlayerState.Spinning)
+                return;
+
+            transform.Translate(movement.Acceleration * Vector3.forward, Space.Self);
+        }
+
         public void Spinning(InputAction.CallbackContext context)
         {
             context.action.performed += _ =>
