@@ -153,7 +153,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.143, z: 0}
-  m_LocalScale: {x: 3, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 0.5, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1162893503}
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d46ad44096a81894786c4095786fed09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 5
+  maxSpeed: 7.5
   angularSpeed: 30
   accelerationCurve:
     serializedVersion: 2
@@ -178,20 +178,20 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
+      inSlope: 2.8364053
+      outSlope: 2.8364053
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.03846154
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
+      inSlope: 0.010577238
+      outSlope: 0.010577238
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.16839045
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -224,27 +224,35 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
+      time: -1
+      value: -1
+      inSlope: -0.055289928
+      outSlope: -0.055289928
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.19402313
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: -0.038797587
+      outSlope: -0.038797587
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.15608701
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
+      inSlope: 0.00014053955
+      outSlope: 0.00014053955
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.2807628
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  angularAcceleration: 15
 --- !u!54 &271330913
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -293,7 +301,7 @@ CapsuleCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 1.02
-  m_Direction: 0
+  m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &271330915
 MeshRenderer:
@@ -445,7 +453,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 50, y: 0.5, z: 50}
+  m_LocalScale: {x: 50, y: 0.5, z: 200}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -519,8 +527,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 864526582}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.017661124, y: 0.7068862, z: 0.017661123, w: 0.70688623}
-  m_LocalPosition: {x: -5, y: 2.6430001, z: 0}
+  m_LocalRotation: {x: -0.024976598, y: -0.00000005601416, z: -0.0000000010298776,
+    w: 0.999688}
+  m_LocalPosition: {x: 0, y: 2.6430001, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -653,8 +662,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 941958436}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.017661126, y: 0.7068862, z: 0.017661124, w: 0.70688623}
-  m_LocalPosition: {x: -5, y: 2.6430001, z: 0}
+  m_LocalRotation: {x: -0.0249766, y: -0.0000000560234, z: -0.0000000013997105, w: 0.999688}
+  m_LocalPosition: {x: 0, y: 2.6430001, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -937,7 +946,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 1
-  m_FollowOffset: {x: -5, y: 1.5, z: 0}
+  m_FollowOffset: {x: 0, y: 1.5, z: -5}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
