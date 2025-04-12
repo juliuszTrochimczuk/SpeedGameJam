@@ -62,7 +62,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""Acceleration"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -73,7 +73,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
+                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Acceleration"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -95,7 +95,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Rotation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -106,7 +106,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Rotation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -128,7 +128,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/rightStick/left"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""Rotation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -139,7 +139,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/rightStick/right"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""Rotation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -150,7 +150,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/dpad/down"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""ActivatingPowerUp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -161,7 +161,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""ActivatingPowerUp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false

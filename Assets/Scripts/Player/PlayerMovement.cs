@@ -5,6 +5,8 @@ using Controllers;
 using ExtensionMethods;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
+using static UnityEngine.InputSystem.InputAction;
 
 namespace Player
 {
@@ -69,14 +71,14 @@ namespace Player
             currentSpeed = Mathf.Lerp(0, maxSpeed, accelerationButtonPressedTime);
             currentAngularSpeed = Mathf.Lerp(0, angularSpeed, Mathf.Abs(rotationButtonPressedTime)) * accelerationButtonPressedTime;
 
-            SmoothAcceleration();
+            //SmoothAcceleration();
             SmoothRotation();
             if (Physics.Raycast(transform.position, Vector3.down, 0.55f, LayerMask.GetMask("Ground")))
                 Move();
             Rotate();
         }
 
-        private void SmoothAcceleration()
+        public void SmoothAcceleration(CallbackContext context)
         {
             if (GameController.Instance.Input.Player.Acceleration.inProgress)
             {

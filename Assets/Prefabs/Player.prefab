@@ -28,8 +28,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3031103404917329326}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.016324388, y: 0.38262367, z: 0.006761783, w: 0.9237353}
-  m_LocalPosition: {x: -5, y: 2.6430001, z: -2.99}
+  m_LocalRotation: {x: -0.0249766, y: -0.0000000560234, z: -0.0000000013997105, w: 0.999688}
+  m_LocalPosition: {x: 0, y: 2.6430001, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -186,6 +186,7 @@ GameObject:
   - component: {fileID: 2628932748402091617}
   - component: {fileID: 6695984781895133738}
   - component: {fileID: 5766199502341051754}
+  - component: {fileID: 6232068086213225659}
   m_Layer: 0
   m_Name: Player_Object
   m_TagString: Player
@@ -394,7 +395,61 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  angularAcceleration: 15
+--- !u!114 &6232068086213225659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6074055995160120098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: a4b37aa8b2146664087d3b26e9a3038f,
+    type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11500000, guid: d46ad44096a81894786c4095786fed09, type: 3}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a6f87005-003e-4826-b260-a243d83fdd59
+    m_ActionName: Player/Acceleration[/Gamepad/rightTrigger,/Keyboard/w]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3e242226-42ff-4b88-ae6c-e3185fbc9af0
+    m_ActionName: Player/Rotation[/Keyboard/a,/Keyboard/d,/Gamepad/rightStick/left,/Gamepad/rightStick/right]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 131816b1-fd56-48b0-b287-cdca3ee0b273
+    m_ActionName: Player/ActivatingPowerUp[/Gamepad/dpad/down,/Keyboard/e]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 7562850089986501339}
 --- !u!1 &6186906904114488477
 GameObject:
   m_ObjectHideFlags: 0
