@@ -449,6 +449,7 @@ GameObject:
   - component: {fileID: 1307048049}
   - component: {fileID: 1307048048}
   - component: {fileID: 1307048047}
+  - component: {fileID: 1307048051}
   m_Layer: 0
   m_Name: Bouncing Obstacles
   m_TagString: Bouncing_Obstacles
@@ -542,6 +543,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &1307048051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1307048046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50658b7c487410d429d2de8d718d399f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spinStrength: 3
+  spinDuration: 1.2
 --- !u!1 &1451457754
 GameObject:
   m_ObjectHideFlags: 0
