@@ -328,8 +328,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d46ad44096a81894786c4095786fed09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 7.5
-  angularSpeed: 120
+  maxSpeed: 5.8
+  maxAngularSpeed: 75
   accelerationCurve:
     serializedVersion: 2
     m_Curve:
@@ -382,31 +382,22 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -1
-      value: -1
-      inSlope: 1.0578268
-      outSlope: 1.0578268
+      time: 0
+      value: 0
+      inSlope: 1.9584906
+      outSlope: 1.9584906
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.15606934
+      outWeight: 0.0433526
     - serializedVersion: 3
-      time: 0
-      value: 0
+      time: 1
+      value: 1
       inSlope: -0
       outSlope: -0
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
-      outWeight: 0.20231214
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0.8017213
-      outSlope: 0.8017213
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.1647399
+      inWeight: 0.23121387
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

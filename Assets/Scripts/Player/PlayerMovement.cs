@@ -10,7 +10,7 @@ namespace Player
         private Rigidbody rb;
 
         [SerializeField] private float maxSpeed;
-        [SerializeField] private float angularSpeed;
+        [SerializeField] private float maxAngularSpeed;
 
         [SerializeField] private AnimationCurve accelerationCurve;
         [SerializeField] private AnimationCurve deccelerationCurve;
@@ -20,13 +20,11 @@ namespace Player
         private AnimationCurve inverseDecceleration;
 
         private float currentAcceleration;
-        private float currentRotation;
 
         private float currentSpeed;
         private float currentAngularSpeed;
 
         private float accelerationButtonPressedTime;
-        private float rotationButtonPressedTime;
 
         private bool isAccelerating;
         private bool fallOffEnergy;
@@ -50,7 +48,7 @@ namespace Player
         {
             get
             {
-                return currentRotation * currentAngularSpeed;
+                return detectedRotation * currentAngularSpeed * currentAcceleration;
             }
         }
 
@@ -70,10 +68,9 @@ namespace Player
                 return;
 
             currentSpeed = Mathf.Lerp(0, maxSpeed, accelerationButtonPressedTime);
-            currentAngularSpeed = Mathf.Lerp(0, angularSpeed, Mathf.Abs(rotationButtonPressedTime)) * accelerationButtonPressedTime;
+            currentAngularSpeed = Mathf.Lerp(0, maxAngularSpeed, accelerationButtonPressedTime);
 
             SmoothAcceleration();
-            SmoothRotation();
             if (Physics.Raycast(transform.position, Vector3.down, Mathf.Infinity, LayerMask.GetMask("Ground")))
             {
                 fallOffEnergy = false;
@@ -129,38 +126,6 @@ namespace Player
                 accelerationButtonPressedTime -= Time.fixedDeltaTime;
                 if (accelerationButtonPressedTime < 0)
                     accelerationButtonPressedTime = 0;
-            }
-        }
-
-        private void SmoothRotation()
-        {
-            currentRotation = angularCurve.Evaluate(rotationButtonPressedTime);
-            if (detectedRotation < 0)
-            {
-                rotationButtonPressedTime -= Time.fixedDeltaTime;
-                if (rotationButtonPressedTime < -1)
-                    rotationButtonPressedTime = -1;
-            }
-            else if (detectedRotation > 0)
-            {
-                rotationButtonPressedTime += Time.fixedDeltaTime;
-                if (rotationButtonPressedTime > 1)
-                    rotationButtonPressedTime = 1;
-            }
-            else
-            {
-                if (rotationButtonPressedTime > 0)
-                {
-                    rotationButtonPressedTime -= Time.fixedDeltaTime;
-                    if (rotationButtonPressedTime < 0)
-                        rotationButtonPressedTime = 0;
-                }
-                else if (rotationButtonPressedTime < 0)
-                {
-                    rotationButtonPressedTime += Time.fixedDeltaTime;
-                    if (rotationButtonPressedTime > 0)
-                        rotationButtonPressedTime = 0;
-                }
             }
         }
 
