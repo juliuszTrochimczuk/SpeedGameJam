@@ -1,12 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Controllers;
 using ExtensionMethods;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
-using static UnityEngine.InputSystem.InputAction;
 
 namespace Player
 {
@@ -14,7 +8,6 @@ namespace Player
     {
         [SerializeField] private float maxSpeed;
         [SerializeField] private float angularSpeed;
-        //[SerializeField] private float buttonLerpingTine;
 
         [SerializeField] private AnimationCurve accelerationCurve;
         [SerializeField] private AnimationCurve deccelerationCurve;
@@ -31,6 +24,9 @@ namespace Player
 
         private float accelerationButtonPressedTime;
         private float rotationButtonPressedTime;
+
+        private bool isAccelerating;
+        private float detectedRotation;
 
         private float Acceleration
         {
@@ -54,33 +50,43 @@ namespace Player
             inverseDecceleration = deccelerationCurve.Inverse();
         }
 
-        private void Start()
-        {
-            GameController.Instance.Input.Player.Acceleration.performed += _ =>
-            {
-                accelerationButtonPressedTime = inverseAcceleration.Evaluate(accelerationButtonPressedTime);
-            };
-            GameController.Instance.Input.Player.Acceleration.canceled += _ =>
-            {
-                accelerationButtonPressedTime = inverseDecceleration.Evaluate(accelerationButtonPressedTime);
-            };
-        }
-
         private void FixedUpdate()
         {
             currentSpeed = Mathf.Lerp(0, maxSpeed, accelerationButtonPressedTime);
             currentAngularSpeed = Mathf.Lerp(0, angularSpeed, Mathf.Abs(rotationButtonPressedTime)) * accelerationButtonPressedTime;
 
-            //SmoothAcceleration();
+            SmoothAcceleration();
             SmoothRotation();
             if (Physics.Raycast(transform.position, Vector3.down, 0.55f, LayerMask.GetMask("Ground")))
                 Move();
             Rotate();
         }
 
-        public void SmoothAcceleration(CallbackContext context)
+        public void DetectAcceleration(InputAction.CallbackContext context)
         {
-            if (GameController.Instance.Input.Player.Acceleration.inProgress)
+            context.action.performed += _ =>
+            {
+                accelerationButtonPressedTime = inverseAcceleration.Evaluate(accelerationButtonPressedTime);
+                isAccelerating = true;
+            };
+            context.action.canceled += _ =>
+            {
+                accelerationButtonPressedTime = inverseDecceleration.Evaluate(accelerationButtonPressedTime);
+                isAccelerating = false;
+            };
+        }
+
+        public void DetectRotation(InputAction.CallbackContext context)
+        {
+            if (context.action.inProgress)
+                detectedRotation = context.action.ReadValue<float>();
+            else
+                detectedRotation = 0;
+        }
+
+        private void SmoothAcceleration()
+        {
+            if (isAccelerating)
             {
                 currentAcceleration = accelerationCurve.Evaluate(accelerationButtonPressedTime);
                 accelerationButtonPressedTime += Time.fixedDeltaTime;
@@ -98,25 +104,19 @@ namespace Player
 
         private void SmoothRotation()
         {
-            float direction = GameController.Instance.Input.Player.Rotation.ReadValue<float>();
             currentRotation = angularCurve.Evaluate(rotationButtonPressedTime);
-            if (GameController.Instance.Input.Player.Rotation.inProgress)
+            if (detectedRotation < 0)
             {
-                if (direction < 0)
-                {
-                    rotationButtonPressedTime -= Time.fixedDeltaTime;
-                    if (rotationButtonPressedTime < -1)
-                        rotationButtonPressedTime = -1;
-                }
-                else if (direction > 0)
-                {
-                    rotationButtonPressedTime += Time.fixedDeltaTime;
-                    if (rotationButtonPressedTime > 1)
-                        rotationButtonPressedTime = 1;
-                }
+                rotationButtonPressedTime -= Time.fixedDeltaTime;
+                if (rotationButtonPressedTime < -1)
+                    rotationButtonPressedTime = -1;
             }
-            else
-                rotationButtonPressedTime = 0;
+            else if (detectedRotation > 0)
+            {
+                rotationButtonPressedTime += Time.fixedDeltaTime;
+                if (rotationButtonPressedTime > 1)
+                    rotationButtonPressedTime = 1;
+            }
         }
 
         private void Move() => transform.Translate(Acceleration * Vector3.forward, Space.Self);

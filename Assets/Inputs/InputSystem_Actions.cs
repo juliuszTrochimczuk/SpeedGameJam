@@ -58,22 +58,22 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""23011b52-ff02-4f84-8117-bbcbbbfd51e2"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""id"": ""2ffd9b11-b36c-430d-99eb-4cf9c5b0413d"",
+                    ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
+                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Acceleration"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""2ffd9b11-b36c-430d-99eb-4cf9c5b0413d"",
-                    ""path"": ""<Keyboard>/w"",
+                    ""id"": ""23011b52-ff02-4f84-8117-bbcbbbfd51e2"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""Acceleration"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -113,7 +113,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""1D Axis"",
-                    ""id"": ""e7913006-e9ba-4b71-971f-08e66dea6645"",
+                    ""id"": ""cea94c6b-151c-4f7f-a5b5-53a864834b69"",
                     ""path"": ""1DAxis"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -124,22 +124,22 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""negative"",
-                    ""id"": ""3b4f7061-ade3-4a5c-83c2-d72b34b3f226"",
-                    ""path"": ""<Gamepad>/rightStick/left"",
+                    ""id"": ""7acfdc7e-0eb2-4382-8d04-a4c899a56a47"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
+                    ""groups"": """",
                     ""action"": ""Rotation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""positive"",
-                    ""id"": ""5a9d0878-2314-481a-a016-422e5506326b"",
-                    ""path"": ""<Gamepad>/rightStick/right"",
+                    ""id"": ""c0e86cec-43fc-4e55-80b7-9e80f398498a"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
+                    ""groups"": """",
                     ""action"": ""Rotation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true

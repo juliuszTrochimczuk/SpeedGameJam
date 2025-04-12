@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Controllers
@@ -8,7 +5,6 @@ namespace Controllers
     public class GameController : MonoBehaviour
     {
         private InputSystem_Actions input;
-        public InputSystem_Actions Input => input;
 
         public static GameController Instance { get; private set; }
 

@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4815666551374531523}
   - component: {fileID: 7562850089986501339}
-  - component: {fileID: 2947484011948175643}
   - component: {fileID: 7226487617151574419}
   - component: {fileID: 6228319884055221392}
   m_Layer: 0
@@ -28,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3031103404917329326}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.0249766, y: -0.0000000560234, z: -0.0000000013997105, w: 0.999688}
+  m_LocalRotation: {x: -0.024976604, y: 0, z: 0, w: 0.999688}
   m_LocalPosition: {x: 0, y: 2.6430001, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -86,14 +85,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &2947484011948175643
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3031103404917329326}
-  m_Enabled: 1
 --- !u!114 &7226487617151574419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,13 +414,13 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: d46ad44096a81894786c4095786fed09, type: 3}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 5766199502341051754}
+        m_TargetAssemblyTypeName: Player.PlayerMovement, Assembly-CSharp
+        m_MethodName: DetectAcceleration
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -438,7 +429,19 @@ MonoBehaviour:
     m_ActionId: a6f87005-003e-4826-b260-a243d83fdd59
     m_ActionName: Player/Acceleration[/Gamepad/rightTrigger,/Keyboard/w]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5766199502341051754}
+        m_TargetAssemblyTypeName: Player.PlayerMovement, Assembly-CSharp
+        m_MethodName: DetectRotation
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 3e242226-42ff-4b88-ae6c-e3185fbc9af0
     m_ActionName: Player/Rotation[/Keyboard/a,/Keyboard/d,/Gamepad/rightStick/left,/Gamepad/rightStick/right]
   - m_PersistentCalls:
@@ -475,8 +478,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6186906904114488477}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.024976598, y: -0.00000005601416, z: -0.0000000010298776,
-    w: 0.999688}
+  m_LocalRotation: {x: -0.024976602, y: -0, z: -0, w: 0.999688}
   m_LocalPosition: {x: 0, y: 2.6430001, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
