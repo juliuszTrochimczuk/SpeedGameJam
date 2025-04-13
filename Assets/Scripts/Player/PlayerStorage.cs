@@ -1,6 +1,7 @@
 using PowerUps;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace Player
 {
@@ -8,6 +9,7 @@ namespace Player
     {
         private AbstractPowerUp _currentPowerUp;
         private bool _isActivated = false;
+        [SerializeField] private PowerUpUiController powerUpUiController;
 
         public AbstractPowerUp GetCurrentPowerUp() {
             return _currentPowerUp;
@@ -30,6 +32,8 @@ namespace Player
                 {
                     Debug.Log("Activate power up");
                     _isActivated = true;
+                    powerUpUiController.UpdateImage(_currentPowerUp.GetSprite());
+
                     _currentPowerUp.Activate();
                     Destroy(_currentPowerUp.gameObject); // does it make _currentPowerUp null?
                     _isActivated = false;

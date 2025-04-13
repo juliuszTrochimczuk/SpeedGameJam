@@ -8,9 +8,11 @@ namespace PowerUps
     public abstract class AbstractPowerUp : MonoBehaviour
     {
         private List<GameObject> players;
-        [SerializeField]
-        private float rangeDistance;
+
+        [SerializeField]private float rangeDistance;
         protected Transform playerThatActivated;
+        [SerializeField] private Sprite sprite;
+
 
         public void Awake()
         {
@@ -47,6 +49,10 @@ namespace PowerUps
             newPowerUp.playerThatActivated = player;
             //DeepCopy(newPowerUp);
             return newPowerUp;
+        }
+
+        public Sprite GetSprite() {
+            return sprite;
         }
     }
 }
