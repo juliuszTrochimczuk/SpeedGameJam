@@ -15,7 +15,6 @@ public class CameraRotationController : MonoBehaviour
     
     public void OnRotate(InputAction.CallbackContext context) {
         _rotationX = context.ReadValue<float>() * sensitivity;
-        Debug.Log(_rotationX);
     }
     
 
