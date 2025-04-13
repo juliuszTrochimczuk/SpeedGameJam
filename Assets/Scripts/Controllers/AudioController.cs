@@ -17,6 +17,11 @@ namespace Controllers
                 Destroy(this);
             else
                 Instance = this;
+
+            foreach (var sound in sounds)
+            {
+                sound.Init(this.gameObject);
+            }
         }
 
         public void PlaySound(string soundName) => GetSound(soundName)?.Play();
@@ -31,7 +36,7 @@ namespace Controllers
             public string name;
             public bool loop;
             [Range(0.0f, 1.0f)] public float volume;
-            [Range(0.0f, 1.0f)] public float pitch;
+            [Range(0.1f, 3.0f)] public float pitch;
 
             public bool IsPlaying => source.isPlaying;
 

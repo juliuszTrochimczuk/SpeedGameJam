@@ -1,3 +1,5 @@
+using System;
+using Controllers;
 using ExtensionMethods;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,6 +10,8 @@ namespace Player
     {
         private PlayerStatesHandler statesHandler;
         private Rigidbody rb;
+
+        public Animator anim;
 
         [SerializeField] private float maxSpeed;
         [SerializeField] private float maxAngularSpeed;
@@ -29,6 +33,8 @@ namespace Player
         private bool isAccelerating;
         private bool fallOffEnergy;
         private float detectedRotation;
+
+        public float maxSpeed1 => maxSpeed;
 
         public float Speed
         {
@@ -67,6 +73,8 @@ namespace Player
 
             statesHandler = GetComponent<PlayerStatesHandler>();
             rb = GetComponent<Rigidbody>();
+            
+            anim = GetComponentInChildren<Animator>();
         }
 
         private void FixedUpdate()
@@ -76,6 +84,7 @@ namespace Player
 
             currentSpeed = Mathf.Lerp(0, maxSpeed, accelerationButtonPressedTime);
             currentAngularSpeed = Mathf.Lerp(0, maxAngularSpeed, accelerationButtonPressedTime);
+            anim.SetFloat("Speed", currentSpeed);
 
             SmoothAcceleration();
             if (Physics.Raycast(transform.position, Vector3.down, Mathf.Infinity, LayerMask.GetMask("Ground")))
@@ -100,20 +109,33 @@ namespace Player
                 transform.rotation = Quaternion.Euler(0, 0, 0);
 
             Rotate();
+            transform.rotation = Quaternion.Euler(
+                rb.constraints == RigidbodyConstraints.FreezeRotationX ? 0.0f : transform.rotation.eulerAngles.x, 
+                rb.constraints == RigidbodyConstraints.FreezeRotationY ? 0.0f: transform.rotation.eulerAngles.y, 
+                0.0f
+            );
         }
 
         public void DetectAcceleration(InputAction.CallbackContext context)
         {
             context.action.performed += _ =>
             {
-                accelerationButtonPressedTime = inverseAcceleration.Evaluate(accelerationButtonPressedTime);
+
                 isAccelerating = true;
+                AudioController.Instance.PlaySound("Movement");
+                accelerationButtonPressedTime = inverseAcceleration.Evaluate(accelerationButtonPressedTime);    
+                anim.SetTrigger("IsW");
             };
             context.action.canceled += _ =>
             {
                 accelerationButtonPressedTime = inverseDecceleration.Evaluate(accelerationButtonPressedTime);
+
                 isAccelerating = false;
+                AudioController.Instance.StopSound("Movement");
+
             };
+
+            isAccelerating = context.action.inProgress;
         }
 
         public void DetectRotation(InputAction.CallbackContext context)
