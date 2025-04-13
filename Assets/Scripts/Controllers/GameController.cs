@@ -16,6 +16,7 @@ namespace Controllers
         [SerializeField] private LayerMask[] playerLayerMasks;
         [SerializeField] private LayerMask[] playersCullingMask;
         [SerializeField] private float killingYPos;
+        [SerializeField] private Transform[] spawningPoints;
 
         private bool gameWon = false;
         private bool startCheckingIfGameIsWon = false;
@@ -29,7 +30,7 @@ namespace Controllers
                 Instance = this;
             
             input = new();
-            inputManager = GameObject.Find("PlayerManager").GetComponent<PlayerInputManager>();
+            inputManager =  GetComponent<PlayerInputManager>();
             DontDestroyOnLoad(gameObject);
         }
 
@@ -57,6 +58,7 @@ namespace Controllers
             int layerToAdd = (int)Mathf.Log(playerLayerMasks[players.Count - 1].value, 2);
             player.transform.GetComponentInChildren<Cinemachine.CinemachineVirtualCamera>().gameObject.layer = layerToAdd;
             player.transform.GetComponentInChildren<Camera>().cullingMask = playersCullingMask[players.Count - 1].value;
+            player.transform.GetChild(0).position = spawningPoints[players.Count - 1].position;
 
             if (players.Count == inputManager.maxPlayerCount)
                 startCheckingIfGameIsWon = true;
