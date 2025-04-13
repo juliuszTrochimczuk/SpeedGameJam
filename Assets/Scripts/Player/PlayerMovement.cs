@@ -30,6 +30,8 @@ namespace Player
         private bool fallOffEnergy;
         private float detectedRotation;
 
+        public float maxSpeed1 => maxSpeed;
+
         public float Speed
         {
             get

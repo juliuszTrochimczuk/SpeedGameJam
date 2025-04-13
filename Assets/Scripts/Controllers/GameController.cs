@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
 namespace Controllers
@@ -56,7 +57,9 @@ namespace Controllers
 
             int layerToAdd = (int)Mathf.Log(playerLayerMasks[players.Count - 1].value, 2);
             player.transform.GetComponentInChildren<Cinemachine.CinemachineVirtualCamera>().gameObject.layer = layerToAdd;
-            player.transform.GetComponentInChildren<Camera>().cullingMask = playersCullingMask[players.Count - 1].value;
+            Camera cameraLocal = player.transform.GetComponentInChildren<Camera>();
+            cameraLocal.cullingMask = playersCullingMask[players.Count - 1].value;
+            cameraLocal.GetUniversalAdditionalCameraData().SetRenderer(players.Count - 1);
 
             if (players.Count == inputManager.maxPlayerCount)
                 startCheckingIfGameIsWon = true;
