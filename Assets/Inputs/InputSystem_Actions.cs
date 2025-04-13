@@ -73,7 +73,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""CareraRotationSwitch"",
+                    ""name"": ""CameraRotationSwitch"",
                     ""type"": ""Button"",
                     ""id"": ""c2e780e5-8748-4b21-ac54-354537950a41"",
                     ""expectedControlType"": """",
@@ -228,12 +228,34 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""3ce0f6be-f37d-4d76-800c-57c00fddb9f2"",
+                    ""path"": ""<Gamepad>/rightStick/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseX"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""37f8cf2b-7a85-432b-bf62-d33c1c117fcb"",
                     ""path"": ""<Keyboard>/alt"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""CareraRotationSwitch"",
+                    ""action"": ""CameraRotationSwitch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""57c88bdd-5dec-407c-8e1c-f6abe62d9424"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CameraRotationSwitch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -344,7 +366,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_ActivatingPowerUp = m_Player.FindAction("ActivatingPowerUp", throwIfNotFound: true);
         m_Player_Spinning = m_Player.FindAction("Spinning", throwIfNotFound: true);
         m_Player_MouseX = m_Player.FindAction("MouseX", throwIfNotFound: true);
-        m_Player_CareraRotationSwitch = m_Player.FindAction("CareraRotationSwitch", throwIfNotFound: true);
+        m_Player_CameraRotationSwitch = m_Player.FindAction("CameraRotationSwitch", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         // General_Purpose
@@ -423,7 +445,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ActivatingPowerUp;
     private readonly InputAction m_Player_Spinning;
     private readonly InputAction m_Player_MouseX;
-    private readonly InputAction m_Player_CareraRotationSwitch;
+    private readonly InputAction m_Player_CameraRotationSwitch;
     public struct PlayerActions
     {
         private @InputSystem_Actions m_Wrapper;
@@ -433,7 +455,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         public InputAction @ActivatingPowerUp => m_Wrapper.m_Player_ActivatingPowerUp;
         public InputAction @Spinning => m_Wrapper.m_Player_Spinning;
         public InputAction @MouseX => m_Wrapper.m_Player_MouseX;
-        public InputAction @CareraRotationSwitch => m_Wrapper.m_Player_CareraRotationSwitch;
+        public InputAction @CameraRotationSwitch => m_Wrapper.m_Player_CameraRotationSwitch;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -458,9 +480,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @MouseX.started += instance.OnMouseX;
             @MouseX.performed += instance.OnMouseX;
             @MouseX.canceled += instance.OnMouseX;
-            @CareraRotationSwitch.started += instance.OnCareraRotationSwitch;
-            @CareraRotationSwitch.performed += instance.OnCareraRotationSwitch;
-            @CareraRotationSwitch.canceled += instance.OnCareraRotationSwitch;
+            @CameraRotationSwitch.started += instance.OnCameraRotationSwitch;
+            @CameraRotationSwitch.performed += instance.OnCameraRotationSwitch;
+            @CameraRotationSwitch.canceled += instance.OnCameraRotationSwitch;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -480,9 +502,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @MouseX.started -= instance.OnMouseX;
             @MouseX.performed -= instance.OnMouseX;
             @MouseX.canceled -= instance.OnMouseX;
-            @CareraRotationSwitch.started -= instance.OnCareraRotationSwitch;
-            @CareraRotationSwitch.performed -= instance.OnCareraRotationSwitch;
-            @CareraRotationSwitch.canceled -= instance.OnCareraRotationSwitch;
+            @CameraRotationSwitch.started -= instance.OnCameraRotationSwitch;
+            @CameraRotationSwitch.performed -= instance.OnCameraRotationSwitch;
+            @CameraRotationSwitch.canceled -= instance.OnCameraRotationSwitch;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -636,7 +658,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         void OnActivatingPowerUp(InputAction.CallbackContext context);
         void OnSpinning(InputAction.CallbackContext context);
         void OnMouseX(InputAction.CallbackContext context);
-        void OnCareraRotationSwitch(InputAction.CallbackContext context);
+        void OnCameraRotationSwitch(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
