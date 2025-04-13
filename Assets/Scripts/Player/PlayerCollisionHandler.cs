@@ -1,4 +1,5 @@
 using Cinemachine;
+using Controllers;
 using ObjectsOnMap;
 using System.Collections;
 using Controllers;
@@ -12,14 +13,16 @@ namespace Player
         private PlayerSpinning spinning;
         private PlayerStatesHandler statesHandler;
         private CinemachineVirtualCamera virtualCamera;
+        private Rigidbody playerRigidbody;
+        
         private bool _isChainActive;
-
 
         private void Awake()
         {
             movement = GetComponent<PlayerMovement>();
             spinning = GetComponent<PlayerSpinning>();
             statesHandler = GetComponent<PlayerStatesHandler>();
+            playerRigidbody = GetComponent<Rigidbody>();
             virtualCamera = transform.root.GetComponentInChildren<CinemachineVirtualCamera>();
         }
 
@@ -67,6 +70,13 @@ namespace Player
             else if (collision.collider.tag == "Ground")
             {
                 AudioController.Instance.PlaySound("Ground");
+
+            }
+            else if (collision.collider.tag == "Ramp")
+            {
+                Ramp ramp = collision.collider.gameObject.GetComponent<Ramp>();
+                playerRigidbody.AddForce(transform.forward * ramp.pushStrength);
+
             }
         }
 

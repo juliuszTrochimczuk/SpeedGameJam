@@ -11,6 +11,8 @@ namespace Player
         private PlayerStatesHandler statesHandler;
         private Rigidbody rb;
 
+        public Animator anim;
+
         [SerializeField] private float maxSpeed;
         [SerializeField] private float maxAngularSpeed;
 
@@ -71,6 +73,8 @@ namespace Player
 
             statesHandler = GetComponent<PlayerStatesHandler>();
             rb = GetComponent<Rigidbody>();
+            
+            anim = GetComponentInChildren<Animator>();
         }
 
         private void FixedUpdate()
@@ -80,6 +84,7 @@ namespace Player
 
             currentSpeed = Mathf.Lerp(0, maxSpeed, accelerationButtonPressedTime);
             currentAngularSpeed = Mathf.Lerp(0, maxAngularSpeed, accelerationButtonPressedTime);
+            anim.SetFloat("Speed", currentSpeed);
 
             SmoothAcceleration();
             if (Physics.Raycast(transform.position, Vector3.down, Mathf.Infinity, LayerMask.GetMask("Ground")))
@@ -115,16 +120,22 @@ namespace Player
         {
             context.action.performed += _ =>
             {
-                accelerationButtonPressedTime = inverseAcceleration.Evaluate(accelerationButtonPressedTime);
+
                 isAccelerating = true;
                 AudioController.Instance.PlaySound("Movement");
+                accelerationButtonPressedTime = inverseAcceleration.Evaluate(accelerationButtonPressedTime);    
+                anim.SetTrigger("IsW");
             };
             context.action.canceled += _ =>
             {
                 accelerationButtonPressedTime = inverseDecceleration.Evaluate(accelerationButtonPressedTime);
+
                 isAccelerating = false;
                 AudioController.Instance.StopSound("Movement");
+
             };
+
+            isAccelerating = context.action.inProgress;
         }
 
         public void DetectRotation(InputAction.CallbackContext context)
