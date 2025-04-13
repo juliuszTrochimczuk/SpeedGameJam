@@ -35,13 +35,21 @@ namespace Player
             if (!Physics.Raycast(transform.position, Vector3.down, 0.55f, LayerMask.GetMask("Ground")))
                 return;
 
-            Debug.Log(speedingUpCoroutine);
-            if (speedingUpCoroutine ==  null && slowingDownCoroutine == null)
-                slowingDownCoroutine = StartCoroutine(LerpingStrength(baseStrength, slowingDownTime, speedingUpCoroutine));
+            if (speedingUpCoroutine == null)
+            {
+                Debug.Log(speedingUpCoroutine);
+            }
+            
 
-            transform.Translate(movement.Speed * Time.fixedDeltaTime * direction * strength, Space.World);
+
+            if (speedingUpCoroutine == null && slowingDownCoroutine == null)
+                slowingDownCoroutine = StartCoroutine(LerpingStrength(baseStrength, slowingDownTime, slowingDownCoroutine));
+            else if (speedingUpCoroutine == null && slowingDownTime != 0)
+                StopCoroutine(slowingDownCoroutine);
+
+                transform.Translate(movement.Speed * Time.fixedDeltaTime * direction * strength, Space.World);
         }
-
+         
         public void Spinning(InputAction.CallbackContext context)
         {
             if (statesHandler.CurrentState == PlayerStatesHandler.PlayerState.Not_In_Move)
@@ -73,6 +81,7 @@ namespace Player
         {
             float time = 0.0f;
             float oldStrength = strength;
+            Debug.Log("target strenght "+targetStrength);
             while (time < duration)
             {
                 strength = Mathf.Lerp(oldStrength, targetStrength, time / duration);
