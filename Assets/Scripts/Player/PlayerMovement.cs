@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Controllers;
 using ExtensionMethods;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,10 +8,10 @@ namespace Player
     public class PlayerMovement : MonoBehaviour   
     {
         private PlayerStatesHandler statesHandler;
+        private Rigidbody rb;
 
         [SerializeField] private float maxSpeed;
-        [SerializeField] private float angularSpeed;
-        //[SerializeField] private float buttonLerpingTine;
+        [SerializeField] private float maxAngularSpeed;
 
         [SerializeField] private AnimationCurve accelerationCurve;
         [SerializeField] private AnimationCurve deccelerationCurve;
@@ -24,48 +21,46 @@ namespace Player
         private AnimationCurve inverseDecceleration;
 
         private float currentAcceleration;
-        private float currentRotation;
 
         private float currentSpeed;
         private float currentAngularSpeed;
 
         private float accelerationButtonPressedTime;
-        private float rotationButtonPressedTime;
 
-        private float Acceleration
+        private bool isAccelerating;
+        private bool fallOffEnergy;
+        private float detectedRotation;
+
+        public float Speed
         {
             get
             {
-                return currentAcceleration * currentSpeed * Time.fixedDeltaTime;
+                return currentAcceleration * currentSpeed;
+            }
+            set
+            {
+                if (value < 0)
+                    value = 0;
+                currentSpeed = value;
             }
         }
 
-        private float AngularSpeed
+        public float AngularSpeed
         {
             get
             {
-                return currentRotation * currentAngularSpeed * Time.fixedDeltaTime;
+                return detectedRotation * currentAngularSpeed * currentAcceleration;
             }
         }
 
-        public float Speed => currentSpeed;
 
         private void Awake()
         {
             inverseAcceleration = accelerationCurve.Inverse();
             inverseDecceleration = deccelerationCurve.Inverse();
-        }
 
-        private void Start()
-        {
-            GameController.Instance.Input.Player.Acceleration.performed += _ =>
-            {
-                accelerationButtonPressedTime = inverseAcceleration.Evaluate(accelerationButtonPressedTime);
-            };
-            GameController.Instance.Input.Player.Acceleration.canceled += _ =>
-            {
-                accelerationButtonPressedTime = inverseDecceleration.Evaluate(accelerationButtonPressedTime);
-            };
+            statesHandler = GetComponent<PlayerStatesHandler>();
+            rb = GetComponent<Rigidbody>();
         }
 
         private void FixedUpdate()
@@ -74,18 +69,63 @@ namespace Player
                 return;
 
             currentSpeed = Mathf.Lerp(0, maxSpeed, accelerationButtonPressedTime);
-            currentAngularSpeed = Mathf.Lerp(0, angularSpeed, Mathf.Abs(rotationButtonPressedTime)) * accelerationButtonPressedTime;
+            currentAngularSpeed = Mathf.Lerp(0, maxAngularSpeed, accelerationButtonPressedTime);
 
             SmoothAcceleration();
-            SmoothRotation();
+            if (Physics.Raycast(transform.position, Vector3.down, Mathf.Infinity, LayerMask.GetMask("Ground")))
+            {
+                fallOffEnergy = false;
+                rb.constraints = RigidbodyConstraints.FreezeRotationZ;
+                Move();
+            }
+            else
+            {
+                rb.constraints = RigidbodyConstraints.None;
+                if (!fallOffEnergy)
+                {
+                    rb.AddForce(Speed * transform.forward, ForceMode.VelocityChange);
+                    fallOffEnergy = true;
+                }
+            }
+
             if (Physics.Raycast(transform.position, Vector3.down, 0.55f, LayerMask.GetMask("Ground")))
                 Move();
+            else if (Physics.Raycast(transform.position, Vector3.up, 0.55f, LayerMask.GetMask("Ground")))
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+
             Rotate();
+            transform.rotation = Quaternion.Euler(
+                rb.constraints == RigidbodyConstraints.FreezeRotationX ? 0.0f : transform.rotation.eulerAngles.x, 
+                rb.constraints == RigidbodyConstraints.FreezeRotationY ? 0.0f: transform.rotation.eulerAngles.y, 
+                0.0f
+            );
+        }
+
+        public void DetectAcceleration(InputAction.CallbackContext context)
+        {
+            context.action.performed += _ =>
+            {
+                accelerationButtonPressedTime = inverseAcceleration.Evaluate(accelerationButtonPressedTime);
+                isAccelerating = true;
+            };
+            context.action.canceled += _ =>
+            {
+                accelerationButtonPressedTime = inverseDecceleration.Evaluate(accelerationButtonPressedTime);
+                isAccelerating = false;
+            };
+        }
+
+        public void DetectRotation(InputAction.CallbackContext context)
+        {
+            if (context.action.inProgress)
+                detectedRotation = context.action.ReadValue<float>();
+            else
+                detectedRotation = 0;
         }
 
         private void SmoothAcceleration()
         {
-            if (GameController.Instance.Input.Player.Acceleration.inProgress)
+            if (isAccelerating)
             {
                 currentAcceleration = accelerationCurve.Evaluate(accelerationButtonPressedTime);
                 accelerationButtonPressedTime += Time.fixedDeltaTime;
@@ -101,44 +141,8 @@ namespace Player
             }
         }
 
-        private void SmoothRotation()
-        {
-            float direction = GameController.Instance.Input.Player.Rotation.ReadValue<float>();
-            currentRotation = angularCurve.Evaluate(rotationButtonPressedTime);
-            if (GameController.Instance.Input.Player.Rotation.inProgress)
-            {
-                if (direction < 0)
-                {
-                    rotationButtonPressedTime -= Time.fixedDeltaTime;
-                    if (rotationButtonPressedTime < -1)
-                        rotationButtonPressedTime = -1;
-                }
-                else if (direction > 0)
-                {
-                    rotationButtonPressedTime += Time.fixedDeltaTime;
-                    if (rotationButtonPressedTime > 1)
-                        rotationButtonPressedTime = 1;
-                }
-            }
-            else
-            {
-                if (rotationButtonPressedTime > 0)
-                {
-                    rotationButtonPressedTime -= Time.fixedDeltaTime;
-                    if (rotationButtonPressedTime < 0)
-                        rotationButtonPressedTime = 0;
-                }
-                else if (rotationButtonPressedTime < 0)
-                {
-                    rotationButtonPressedTime += Time.fixedDeltaTime;
-                    if (rotationButtonPressedTime > 0)
-                        rotationButtonPressedTime = 0;
-                }
-            }
-        }
+        private void Move() => transform.Translate(Speed * Time.fixedDeltaTime * Vector3.forward, Space.Self);
 
-        private void Move() => transform.Translate(Acceleration * Vector3.forward, Space.Self);
-
-        private void Rotate() => transform.Rotate(AngularSpeed * Vector3.up, Space.World);
+        private void Rotate() => transform.Rotate(AngularSpeed * Time.fixedDeltaTime * Vector3.up, Space.World);
     }
 }
