@@ -1,7 +1,6 @@
 using Cinemachine;
 using ObjectsOnMap;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Player
@@ -12,8 +11,9 @@ namespace Player
         private PlayerSpinning spinning;
         private PlayerStatesHandler statesHandler;
         private CinemachineVirtualCamera virtualCamera;
+        private bool _isChainActive;
 
-            
+
         private void Awake()
         {
             movement = GetComponent<PlayerMovement>();
@@ -51,6 +51,20 @@ namespace Player
                     transform.LookAt(transform.position + spinDirection);
                 }
             }
+            else if (collision.collider.tag == "Player")
+            {
+                GameObject enemy = collision.collider.gameObject;
+
+                var playerStorage = GetComponent<PlayerStorage>();
+                var currentPowerUp = playerStorage.GetCurrentPowerUp();
+                if (_isChainActive)
+                {
+                    var castedPowerUp = (ChainPowerUp)currentPowerUp;
+
+                    if (castedPowerUp.GetEnemy() != null)
+                        castedPowerUp.SetEnemy(enemy);
+                }
+            }
         }
 
         private IEnumerator CameraDelay()
@@ -58,6 +72,11 @@ namespace Player
             virtualCamera.Follow = null;
             yield return new WaitForSeconds(0.5f);
             virtualCamera.Follow = gameObject.transform;
+        }
+
+        public void SetChainActivated(bool chainActivated)
+        {
+            _isChainActive = chainActivated;
         }
     }
 }

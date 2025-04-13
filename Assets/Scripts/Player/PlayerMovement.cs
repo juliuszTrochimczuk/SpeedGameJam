@@ -52,6 +52,13 @@ namespace Player
             }
         }
 
+        public float GetMaxSpeed() {
+            return maxSpeed;
+        }
+
+        public void SetMaxSpeed(float maxSpeed) {
+            this.maxSpeed = maxSpeed;
+        }
 
         private void Awake()
         {
