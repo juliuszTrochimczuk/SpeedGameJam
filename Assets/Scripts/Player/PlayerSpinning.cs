@@ -35,15 +35,8 @@ namespace Player
             if (!Physics.Raycast(transform.position, Vector3.down, 0.55f, LayerMask.GetMask("Ground")))
                 return;
 
-            if (speedingUpCoroutine == null)
-            {
-                Debug.Log(speedingUpCoroutine);
-            }
-            
-
-
             if (speedingUpCoroutine == null && slowingDownCoroutine == null)
-                slowingDownCoroutine = StartCoroutine(LerpingStrength(baseStrength, slowingDownTime, slowingDownCoroutine));
+                slowingDownCoroutine = StartCoroutine(LerpingStrengthDown(baseStrength, slowingDownTime));
             else if (speedingUpCoroutine == null && slowingDownTime != 0)
                 StopCoroutine(slowingDownCoroutine);
 
@@ -74,14 +67,13 @@ namespace Player
         {
             if (speedingUpCoroutine != null)
                 StopCoroutine(speedingUpCoroutine);
-            speedingUpCoroutine = StartCoroutine(LerpingStrength(strength + addition, duration, speedingUpCoroutine));
+            speedingUpCoroutine = StartCoroutine(LerpingStrengthUp(strength + addition, duration));
         }
 
-        private IEnumerator LerpingStrength(float targetStrength, float duration, Coroutine coroutineToNull)
+        private IEnumerator LerpingStrengthUp(float targetStrength, float duration)
         {
             float time = 0.0f;
             float oldStrength = strength;
-            Debug.Log("target strenght "+targetStrength);
             while (time < duration)
             {
                 strength = Mathf.Lerp(oldStrength, targetStrength, time / duration);
@@ -89,7 +81,21 @@ namespace Player
                 yield return new WaitForEndOfFrame();
             }
             strength = targetStrength;
-            coroutineToNull = null;
+            speedingUpCoroutine = null;
+        }
+        
+        private IEnumerator LerpingStrengthDown(float targetStrength, float duration)
+        {
+            float time = 0.0f;
+            float oldStrength = strength;
+            while (time < duration)
+            {
+                strength = Mathf.Lerp(oldStrength, targetStrength, time / duration);
+                time += Time.deltaTime;
+                yield return new WaitForEndOfFrame();
+            }
+            strength = targetStrength;
+            slowingDownCoroutine = null;
         }
     }
 }
