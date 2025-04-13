@@ -85,6 +85,7 @@ namespace Player
             currentSpeed = Mathf.Lerp(0, maxSpeed, accelerationButtonPressedTime);
             currentAngularSpeed = Mathf.Lerp(0, maxAngularSpeed, accelerationButtonPressedTime);
             anim.SetFloat("Speed", currentSpeed);
+            anim.SetFloat("Rot", detectedRotation);
 
             SmoothAcceleration();
             if (Physics.Raycast(transform.position, Vector3.down, Mathf.Infinity, LayerMask.GetMask("Ground")))
