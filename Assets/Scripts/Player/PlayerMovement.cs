@@ -1,3 +1,4 @@
+using System;
 using ExtensionMethods;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -29,6 +30,8 @@ namespace Player
         private bool isAccelerating;
         private bool fallOffEnergy;
         private float detectedRotation;
+
+        public float maxSpeed1 => maxSpeed;
 
         public float Speed
         {
@@ -93,6 +96,11 @@ namespace Player
                 transform.rotation = Quaternion.Euler(0, 0, 0);
 
             Rotate();
+            transform.rotation = Quaternion.Euler(
+                rb.constraints == RigidbodyConstraints.FreezeRotationX ? 0.0f : transform.rotation.eulerAngles.x, 
+                rb.constraints == RigidbodyConstraints.FreezeRotationY ? 0.0f: transform.rotation.eulerAngles.y, 
+                0.0f
+            );
         }
 
         public void DetectAcceleration(InputAction.CallbackContext context)
