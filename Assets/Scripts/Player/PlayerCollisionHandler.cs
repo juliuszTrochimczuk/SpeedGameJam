@@ -12,7 +12,6 @@ namespace Player
         private PlayerSpinning spinning;
         private PlayerStatesHandler statesHandler;
         private CinemachineVirtualCamera virtualCamera;
-
             
         private void Awake()
         {

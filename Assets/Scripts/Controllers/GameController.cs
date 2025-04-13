@@ -20,7 +20,9 @@ namespace Controllers
         [SerializeField] private Transform[] spawningPoints;
 
         private bool gameWon = false;
-        private bool startCheckingIfGameIsWon = false;
+        private bool gameStarts = false;
+
+        public bool GameStarts => gameStarts;
 
 
         private void Awake()
@@ -65,7 +67,7 @@ namespace Controllers
 
 
             if (players.Count == inputManager.maxPlayerCount)
-                startCheckingIfGameIsWon = true;
+                gameStarts = true;
 
         }
 
@@ -78,7 +80,7 @@ namespace Controllers
             {
                 if (players[i].transform.GetChild(0).position.y <= killingYPos)
                 {
-                    if (!startCheckingIfGameIsWon)
+                    if (!gameStarts)
                     {
                         players[i].transform.GetChild(0).position = new Vector3(0, 2.5f, 0);
                         players[i].transform.GetChild(0).rotation = Quaternion.Euler(0, 0, 0);
@@ -90,7 +92,7 @@ namespace Controllers
                     }
                 }
             }
-            if (players.Count == 1 && startCheckingIfGameIsWon)
+            if (players.Count == 1 && gameStarts)
             {
                 players[0].transform.GetChild(0).GetComponent<Player.PlayerWinningHandler>().PlayerWon();
                 gameWon = true;
