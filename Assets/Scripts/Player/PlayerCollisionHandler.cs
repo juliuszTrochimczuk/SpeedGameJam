@@ -31,6 +31,7 @@ namespace Player
                 {
                     Vector3 spinDirection = Vector3.Reflect(movement.transform.forward, collision.contacts[0].normal);
                     spinning.ChangeDirection(spinDirection);
+                    spinning.ChangeStrength(0.5f, 0.4f);
                     StartCoroutine(CameraDelay());
                     transform.LookAt(transform.position + spinDirection);
                 }
@@ -38,7 +39,7 @@ namespace Player
             else if (collision.collider.tag == "Dynamic_Obstacles")
             {
                 Rigidbody rb = collision.collider.GetComponent<Rigidbody>();
-                rb.AddForce(movement.Speed * ((collision.collider.transform.position - movement.transform.position).normalized + Vector3.up), ForceMode.VelocityChange);
+                rb.AddForce(movement.Speed * ((collision.collider.transform.position - movement.transform.position).normalized + Vector3.up) * spinning.Strength, ForceMode.VelocityChange);
                 Audio.Instance.PlaySound("Bump");
             }
             else if (collision.collider.tag == "Bouncing_Obstacles")
@@ -52,6 +53,14 @@ namespace Player
                     spinning.ChangeStrength(bouncer.spinStrength, bouncer.spinDuration);
                     StartCoroutine(CameraDelay());
                     transform.LookAt(transform.position + spinDirection);
+                }
+            }
+            else if (collision.collider.tag == "Player")
+            {
+                if (statesHandler.CurrentState == PlayerStatesHandler.PlayerState.Spinning)
+                {
+                    Rigidbody rb = collision.collider.GetComponent<Rigidbody>();
+                    rb.AddForce(movement.Speed * ((collision.collider.transform.position - movement.transform.position).normalized + Vector3.up) * spinning.Strength, ForceMode.VelocityChange);
                 }
             }
             else if (collision.collider.tag == "Ground")
