@@ -7,6 +7,15 @@ namespace Player
     public class PlayerStorage : MonoBehaviour
     {
         private AbstractPowerUp _currentPowerUp;
+        private bool _isActivated = false;
+
+        public AbstractPowerUp GetCurrentPowerUp() {
+            return _currentPowerUp;
+        }
+
+        public bool isActivated() {
+            return _isActivated;
+        }
 
         public void AddPowerUp(AbstractPowerUp powerUp)
         {
@@ -19,8 +28,11 @@ namespace Player
             {
                 if (_currentPowerUp != null)
                 {
+                    Debug.Log("Activate power up");
+                    _isActivated = true;
                     _currentPowerUp.Activate();
-                    Destroy(_currentPowerUp);
+                    Destroy(_currentPowerUp.gameObject); // does it make _currentPowerUp null?
+                    _isActivated = false;
                 }
             };
         }
