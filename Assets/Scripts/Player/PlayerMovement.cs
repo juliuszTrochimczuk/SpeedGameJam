@@ -74,7 +74,7 @@ namespace Player
             if (Physics.Raycast(transform.position, Vector3.down, Mathf.Infinity, LayerMask.GetMask("Ground")))
             {
                 fallOffEnergy = false;
-                rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+                rb.constraints = RigidbodyConstraints.FreezeRotationZ;
                 Move();
             }
             else
@@ -86,7 +86,13 @@ namespace Player
                     fallOffEnergy = true;
                 }
             }
-                Rotate();
+
+            if (Physics.Raycast(transform.position, Vector3.down, 0.55f, LayerMask.GetMask("Ground")))
+                Move();
+            else if (Physics.Raycast(transform.position, Vector3.up, 0.55f, LayerMask.GetMask("Ground")))
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+
+            Rotate();
         }
 
         public void DetectAcceleration(InputAction.CallbackContext context)

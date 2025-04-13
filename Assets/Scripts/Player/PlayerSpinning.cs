@@ -28,6 +28,9 @@ namespace Player
             if (statesHandler.CurrentState != PlayerStatesHandler.PlayerState.Spinning)
                 return;
 
+            if (!Physics.Raycast(transform.position, Vector3.down, 0.55f, LayerMask.GetMask("Ground")))
+                return;
+
             transform.Translate(movement.Speed * Time.fixedDeltaTime * direction * strength, Space.World);
             if (strength == 1)
                 movement.Speed -= 0.5f * Time.fixedDeltaTime;
@@ -35,6 +38,9 @@ namespace Player
 
         public void Spinning(InputAction.CallbackContext context)
         {
+            if (statesHandler.CurrentState == PlayerStatesHandler.PlayerState.Not_In_Move)
+                return;
+
             context.action.performed += _ =>
             {
                 transform.localScale = new Vector3(1, 0.5f, 1);
