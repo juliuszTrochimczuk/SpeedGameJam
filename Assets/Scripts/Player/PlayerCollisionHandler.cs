@@ -1,4 +1,5 @@
 using Cinemachine;
+using Controllers;
 using ObjectsOnMap;
 using System.Collections;
 using UnityEngine;
@@ -11,14 +12,16 @@ namespace Player
         private PlayerSpinning spinning;
         private PlayerStatesHandler statesHandler;
         private CinemachineVirtualCamera virtualCamera;
+        private Rigidbody playerRigidbody;
+        
         private bool _isChainActive;
-
 
         private void Awake()
         {
             movement = GetComponent<PlayerMovement>();
             spinning = GetComponent<PlayerSpinning>();
             statesHandler = GetComponent<PlayerStatesHandler>();
+            playerRigidbody = GetComponent<Rigidbody>();
             virtualCamera = transform.root.GetComponentInChildren<CinemachineVirtualCamera>();
         }
 
@@ -26,7 +29,7 @@ namespace Player
         {
             if (collision.collider.tag == "Static_Obstacles")
             {
-                Audio.Instance.PlaySound("Bump");
+                AudioController.Instance.PlaySound("Bump");
                 if (statesHandler.CurrentState == PlayerStatesHandler.PlayerState.Spinning)
                 {
                     Vector3 spinDirection = Vector3.Reflect(movement.transform.forward, collision.contacts[0].normal);
@@ -40,11 +43,11 @@ namespace Player
             {
                 Rigidbody rb = collision.collider.GetComponent<Rigidbody>();
                 rb.AddForce(movement.Speed * ((collision.collider.transform.position - movement.transform.position).normalized + Vector3.up) * spinning.Strength, ForceMode.VelocityChange);
-                Audio.Instance.PlaySound("Bump");
+                AudioController.Instance.PlaySound("Bump");
             }
             else if (collision.collider.tag == "Bouncing_Obstacles")
             {
-                Audio.Instance.PlaySound("Bump");
+                AudioController.Instance.PlaySound("Bump");
                 if (statesHandler.CurrentState == PlayerStatesHandler.PlayerState.Spinning)
                 {
                     Vector3 spinDirection = Vector3.Reflect(movement.transform.forward, collision.contacts[0].normal);
@@ -65,7 +68,12 @@ namespace Player
             }
             else if (collision.collider.tag == "Ground")
             {
-                Audio.Instance.PlaySound("Ground");
+                AudioController.Instance.PlaySound("Ground");
+            }
+            else if (collision.collider.tag == "Ramp")
+            {
+                Ramp ramp = collision.collider.gameObject.GetComponent<Ramp>();
+                playerRigidbody.AddForce(transform.forward * ramp.pushStrength);
             }
         }
 
