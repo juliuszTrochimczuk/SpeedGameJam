@@ -57,6 +57,13 @@ namespace Player
             }
         }
 
+        public float GetMaxSpeed() {
+            return maxSpeed;
+        }
+
+        public void SetMaxSpeed(float maxSpeed) {
+            this.maxSpeed = maxSpeed;
+        }
 
         private void Awake()
         {
@@ -113,11 +120,13 @@ namespace Player
             context.action.performed += _ =>
             {
                 accelerationButtonPressedTime = inverseAcceleration.Evaluate(accelerationButtonPressedTime);    
+                AudioController.Instance.Playsound("Movement");
                 anim.SetTrigger("IsW");
             };
             context.action.canceled += _ =>
             {
                 accelerationButtonPressedTime = inverseDecceleration.Evaluate(accelerationButtonPressedTime);
+                AudioController.Instance.Stopsound("Movement");
             };
 
             isAccelerating = context.action.inProgress;
