@@ -1,5 +1,6 @@
 using Cinemachine;
 using ObjectsOnMap;
+using PowerUps;
 using System.Collections;
 using UnityEngine;
 
@@ -49,6 +50,24 @@ namespace Player
                     spinning.ChangeStrength(bouncer.spinStrength, bouncer.spinDuration);
                     StartCoroutine(CameraDelay());
                     transform.LookAt(transform.position + spinDirection);
+                }
+            }
+            else if (collision.collider.tag == "Player")
+            {
+                Debug.Log("Bitch gets touched");
+                GameObject enemy = collision.collider.gameObject;
+
+                var playerStorage = GetComponent<PlayerStorage>();
+                var currentPowerUp = playerStorage.GetCurrentPowerUp();
+                if (_isChainActive)
+                {
+                    Debug.Log("Bitch gets affected");
+                    var castedPowerUp = (ChainPowerUp)currentPowerUp;
+
+                    if (castedPowerUp.GetEnemy() == null) {
+                        Debug.Log("Bitch gets set");
+                        castedPowerUp.SetEnemy(enemy);
+                    }
                 }
             }
         }
