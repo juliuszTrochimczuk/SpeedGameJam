@@ -26,6 +26,7 @@ namespace Player
         {
             if (collision.collider.tag == "Static_Obstacles")
             {
+                Audio.Instance.PlaySound("Bump");
                 if (statesHandler.CurrentState == PlayerStatesHandler.PlayerState.Spinning)
                 {
                     Vector3 spinDirection = Vector3.Reflect(movement.transform.forward, collision.contacts[0].normal);
@@ -39,9 +40,11 @@ namespace Player
             {
                 Rigidbody rb = collision.collider.GetComponent<Rigidbody>();
                 rb.AddForce(movement.Speed * ((collision.collider.transform.position - movement.transform.position).normalized + Vector3.up) * spinning.Strength, ForceMode.VelocityChange);
+                Audio.Instance.PlaySound("Bump");
             }
             else if (collision.collider.tag == "Bouncing_Obstacles")
             {
+                Audio.Instance.PlaySound("Bump");
                 if (statesHandler.CurrentState == PlayerStatesHandler.PlayerState.Spinning)
                 {
                     Vector3 spinDirection = Vector3.Reflect(movement.transform.forward, collision.contacts[0].normal);
@@ -59,6 +62,10 @@ namespace Player
                     Rigidbody rb = collision.collider.GetComponent<Rigidbody>();
                     rb.AddForce(movement.Speed * ((collision.collider.transform.position - movement.transform.position).normalized + Vector3.up) * spinning.Strength, ForceMode.VelocityChange);
                 }
+            }
+            else if (collision.collider.tag == "Ground")
+            {
+                Audio.Instance.PlaySound("Ground");
             }
         }
 

@@ -179,7 +179,67 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f428a7876fa188d448a2f3407d27f80c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds: []
+  sounds:
+  - name: dying
+    loop: 0
+    volume: 1
+    pitch: 1
+    clip: {fileID: 8300000, guid: 91a14957cb4bd9b469a270927b07fffe, type: 3}
+    mixer: {fileID: 24300002, guid: 8630dec86cb51d34789a4465a8bd496f, type: 2}
+  - name: Firework
+    loop: 0
+    volume: 1
+    pitch: 1
+    clip: {fileID: 8300000, guid: 2848f6e594269034ea2ee5b9dbe24767, type: 3}
+    mixer: {fileID: 24300002, guid: 8630dec86cb51d34789a4465a8bd496f, type: 2}
+  - name: Bump
+    loop: 0
+    volume: 1
+    pitch: 1
+    clip: {fileID: 8300000, guid: 8df0761384f99cc4283e5c4128105868, type: 3}
+    mixer: {fileID: 24300002, guid: 8630dec86cb51d34789a4465a8bd496f, type: 2}
+  - name: Speed boost activate
+    loop: 0
+    volume: 1
+    pitch: 1
+    clip: {fileID: 8300000, guid: 992a1ae91f128ed4488a1a0dc7405f7c, type: 3}
+    mixer: {fileID: 24300002, guid: 8630dec86cb51d34789a4465a8bd496f, type: 2}
+  - name: Ground
+    loop: 0
+    volume: 1
+    pitch: 1
+    clip: {fileID: 8300000, guid: 0574f48c62afde6429f9e4e1f7434728, type: 3}
+    mixer: {fileID: 24300002, guid: 8630dec86cb51d34789a4465a8bd496f, type: 2}
+  - name: Kick
+    loop: 0
+    volume: 1
+    pitch: 1
+    clip: {fileID: 8300000, guid: ef5b88f29f2a05b458eddb92cb6ee444, type: 3}
+    mixer: {fileID: 24300002, guid: 8630dec86cb51d34789a4465a8bd496f, type: 2}
+  - name: Start
+    loop: 0
+    volume: 1
+    pitch: 1
+    clip: {fileID: 8300000, guid: 992a1ae91f128ed4488a1a0dc7405f7c, type: 3}
+    mixer: {fileID: 24300002, guid: 8630dec86cb51d34789a4465a8bd496f, type: 2}
+  - name: Arena
+    loop: 1
+    volume: 1
+    pitch: 1
+    clip: {fileID: 8300000, guid: c7fb9b0b243b1cb4cacd104b3878c929, type: 3}
+    mixer: {fileID: 24300002, guid: 8630dec86cb51d34789a4465a8bd496f, type: 2}
+  - name: Winner
+    loop: 0
+    volume: 1
+    pitch: 1
+    clip: {fileID: 8300000, guid: f898315e5c6633a48a5879623e5da3ea, type: 3}
+    mixer: {fileID: 24300002, guid: 8630dec86cb51d34789a4465a8bd496f, type: 2}
+  - name: Movement
+    loop: 1
+    volume: 1
+    pitch: 1
+    clip: {fileID: 8300000, guid: 1344a120194ca97458bde67a7a588993, type: 3}
+    mixer: {fileID: 24300002, guid: 8630dec86cb51d34789a4465a8bd496f, type: 2}
 --- !u!114 &1092091684862558985
 MonoBehaviour:
   m_ObjectHideFlags: 0

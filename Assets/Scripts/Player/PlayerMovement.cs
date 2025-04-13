@@ -109,11 +109,13 @@ namespace Player
             {
                 accelerationButtonPressedTime = inverseAcceleration.Evaluate(accelerationButtonPressedTime);
                 isAccelerating = true;
+                AudioController.Instance.Playsound("Movement");
             };
             context.action.canceled += _ =>
             {
                 accelerationButtonPressedTime = inverseDecceleration.Evaluate(accelerationButtonPressedTime);
                 isAccelerating = false;
+                AudioController.Instance.Stopsound("Movement");
             };
         }
 
