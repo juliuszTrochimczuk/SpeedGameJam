@@ -51,20 +51,6 @@ namespace Player
                     transform.LookAt(transform.position + spinDirection);
                 }
             }
-            else if (collision.collider.tag == "Player")
-            {
-                GameObject enemy = collision.collider.gameObject;
-
-                var playerStorage = GetComponent<PlayerStorage>();
-                var currentPowerUp = playerStorage.GetCurrentPowerUp();
-                if (_isChainActive)
-                {
-                    var castedPowerUp = (ChainPowerUp)currentPowerUp;
-
-                    if (castedPowerUp.GetEnemy() != null)
-                        castedPowerUp.SetEnemy(enemy);
-                }
-            }
         }
 
         private IEnumerator CameraDelay()
