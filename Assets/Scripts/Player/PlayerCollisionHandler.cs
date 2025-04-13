@@ -2,6 +2,7 @@ using Cinemachine;
 using Controllers;
 using ObjectsOnMap;
 using System.Collections;
+using Controllers;
 using UnityEngine;
 
 namespace Player
@@ -69,11 +70,13 @@ namespace Player
             else if (collision.collider.tag == "Ground")
             {
                 AudioController.Instance.PlaySound("Ground");
+
             }
             else if (collision.collider.tag == "Ramp")
             {
                 Ramp ramp = collision.collider.gameObject.GetComponent<Ramp>();
                 playerRigidbody.AddForce(transform.forward * ramp.pushStrength);
+
             }
         }
 

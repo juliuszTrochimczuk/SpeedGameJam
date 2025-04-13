@@ -17,6 +17,11 @@ namespace Controllers
                 Destroy(this);
             else
                 Instance = this;
+
+            foreach (var sound in sounds)
+            {
+                sound.Init(this.gameObject);
+            }
         }
 
         public void PlaySound(string soundName) => GetSound(soundName)?.Play();
