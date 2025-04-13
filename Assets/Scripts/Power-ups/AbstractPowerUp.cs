@@ -8,10 +8,12 @@ namespace PowerUps
     public abstract class AbstractPowerUp : MonoBehaviour
     {
         private List<GameObject> players;
-        [SerializeField]
-        private float rangeDistance;
-        protected Transform playerThatActivated;
 
+        [SerializeField]private float rangeDistance;
+        protected Transform playerThatActivated;
+        [SerializeField] private Sprite sprite;
+        public Sprite Sprite => sprite;
+        
         public void Awake()
         {
             players = GameObject.FindGameObjectsWithTag("Player").ToList();
