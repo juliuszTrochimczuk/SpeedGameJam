@@ -1,6 +1,6 @@
-using Controllers;
 using PowerUps;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Player
 {
@@ -8,23 +8,21 @@ namespace Player
     {
         private AbstractPowerUp _currentPowerUp;
 
-        public void Start()
-        {
-            GameController.Instance.Input.Player.ActivatingPowerUp.performed += _ => ActivatePowerUp();
-        }
-
         public void AddPowerUp(AbstractPowerUp powerUp)
         {
             _currentPowerUp = powerUp;
         }
 
-        private void ActivatePowerUp()
+        public void ActivatePowerUp(InputAction.CallbackContext context)
         {
-            if (_currentPowerUp != null)
+            context.action.performed += _ => 
             {
-                _currentPowerUp.Activate();
-                Destroy(_currentPowerUp);
-            }
+                if (_currentPowerUp != null)
+                {
+                    _currentPowerUp.Activate();
+                    Destroy(_currentPowerUp);
+                }
+            };
         }
     }
 }

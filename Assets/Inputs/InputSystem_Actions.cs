@@ -29,9 +29,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Acceleration"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""a6f87005-003e-4826-b260-a243d83fdd59"",
-                    ""expectedControlType"": ""Double"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -89,7 +89,18 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Acceleration"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""23011b52-ff02-4f84-8117-bbcbbbfd51e2"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""Acceleration"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -111,7 +122,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Rotation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -120,6 +131,39 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""name"": ""positive"",
                     ""id"": ""5bc69590-692b-4c1e-b9de-f2b130508441"",
                     ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Rotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""cea94c6b-151c-4f7f-a5b5-53a864834b69"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotation"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""7acfdc7e-0eb2-4382-8d04-a4c899a56a47"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""c0e86cec-43fc-4e55-80b7-9e80f398498a"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -133,15 +177,37 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""ActivatingPowerUp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
+                    ""id"": ""887db269-1565-4b28-847f-da183f799dcb"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""ActivatingPowerUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5684f1c4-13e9-4d9c-abf0-9dc99f5e73f2"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Spinning"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""f155aa1e-1dbe-44aa-a017-97f35747a8b3"",
-                    ""path"": ""<Keyboard>/q"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -178,6 +244,34 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             ""id"": ""272f6d14-89ba-496f-b7ff-215263d3219f"",
             ""actions"": [],
             ""bindings"": []
+        },
+        {
+            ""name"": ""General_Purpose"",
+            ""id"": ""b01f1f40-00e9-44ae-866d-557c92aaf7c3"",
+            ""actions"": [
+                {
+                    ""name"": ""ResetLevel"",
+                    ""type"": ""Button"",
+                    ""id"": ""9f6bce89-7584-47b2-b784-ac395a68b7f6"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""6454eb51-d89a-47b8-934d-b01f4a575ceb"",
+                    ""path"": ""<Keyboard>/f5"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ResetLevel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -253,12 +347,16 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_CareraRotationSwitch = m_Player.FindAction("CareraRotationSwitch", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
+        // General_Purpose
+        m_General_Purpose = asset.FindActionMap("General_Purpose", throwIfNotFound: true);
+        m_General_Purpose_ResetLevel = m_General_Purpose.FindAction("ResetLevel", throwIfNotFound: true);
     }
 
     ~@InputSystem_Actions()
     {
         UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, InputSystem_Actions.Player.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, InputSystem_Actions.UI.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_General_Purpose.enabled, "This will cause a leak and performance issues, InputSystem_Actions.General_Purpose.Disable() has not been called.");
     }
 
     public void Dispose()
@@ -440,6 +538,52 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         }
     }
     public UIActions @UI => new UIActions(this);
+
+    // General_Purpose
+    private readonly InputActionMap m_General_Purpose;
+    private List<IGeneral_PurposeActions> m_General_PurposeActionsCallbackInterfaces = new List<IGeneral_PurposeActions>();
+    private readonly InputAction m_General_Purpose_ResetLevel;
+    public struct General_PurposeActions
+    {
+        private @InputSystem_Actions m_Wrapper;
+        public General_PurposeActions(@InputSystem_Actions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ResetLevel => m_Wrapper.m_General_Purpose_ResetLevel;
+        public InputActionMap Get() { return m_Wrapper.m_General_Purpose; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(General_PurposeActions set) { return set.Get(); }
+        public void AddCallbacks(IGeneral_PurposeActions instance)
+        {
+            if (instance == null || m_Wrapper.m_General_PurposeActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_General_PurposeActionsCallbackInterfaces.Add(instance);
+            @ResetLevel.started += instance.OnResetLevel;
+            @ResetLevel.performed += instance.OnResetLevel;
+            @ResetLevel.canceled += instance.OnResetLevel;
+        }
+
+        private void UnregisterCallbacks(IGeneral_PurposeActions instance)
+        {
+            @ResetLevel.started -= instance.OnResetLevel;
+            @ResetLevel.performed -= instance.OnResetLevel;
+            @ResetLevel.canceled -= instance.OnResetLevel;
+        }
+
+        public void RemoveCallbacks(IGeneral_PurposeActions instance)
+        {
+            if (m_Wrapper.m_General_PurposeActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IGeneral_PurposeActions instance)
+        {
+            foreach (var item in m_Wrapper.m_General_PurposeActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_General_PurposeActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public General_PurposeActions @General_Purpose => new General_PurposeActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -496,5 +640,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     }
     public interface IUIActions
     {
+    }
+    public interface IGeneral_PurposeActions
+    {
+        void OnResetLevel(InputAction.CallbackContext context);
     }
 }
