@@ -20,11 +20,14 @@ namespace Player
         [SerializeField] private float slowingDownTime;
         [SerializeField] private float baseStrength = 1;
         
+        private Animator anim;
+        
 
         private void Awake()
         {
             movement = GetComponent<PlayerMovement>();
             statesHandler = GetComponent<PlayerStatesHandler>();
+            anim = GetComponentInChildren<Animator>();
         }
 
         private void FixedUpdate()
@@ -34,7 +37,7 @@ namespace Player
 
             if (!Physics.Raycast(transform.position, Vector3.down, 0.55f, LayerMask.GetMask("Ground")))
                 return;
-
+            
             if (speedingUpCoroutine == null && slowingDownCoroutine == null)
                 slowingDownCoroutine = StartCoroutine(LerpingStrengthDown(baseStrength, slowingDownTime));
             else if (speedingUpCoroutine == null && slowingDownTime != 0)
@@ -53,11 +56,13 @@ namespace Player
                 transform.localScale = new Vector3(1, 0.5f, 1);
                 statesHandler.CurrentState = PlayerStatesHandler.PlayerState.Spinning;
                 direction = transform.forward;
+                anim.SetBool("Spin", true);
             };
             context.action.canceled += _ =>
             {
                 transform.localScale = new Vector3(1, 0.5f, 3);
                 statesHandler.CurrentState = PlayerStatesHandler.PlayerState.Moving;
+                anim.SetBool("Spin", false);
             };
         }
 
