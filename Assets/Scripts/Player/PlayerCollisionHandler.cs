@@ -1,6 +1,7 @@
 using Cinemachine;
 using Controllers;
 using ObjectsOnMap;
+using PowerUps;
 using System.Collections;
 using UnityEngine;
 
@@ -65,15 +66,33 @@ namespace Player
                     Rigidbody rb = collision.collider.GetComponent<Rigidbody>();
                     rb.AddForce(movement.Speed * ((collision.collider.transform.position - movement.transform.position).normalized + Vector3.up) * spinning.Strength, ForceMode.VelocityChange);
                 }
+
+                Debug.Log("Bitch gets touched");
+                GameObject enemy = collision.collider.gameObject;
+
+                var playerStorage = GetComponent<PlayerStorage>();
+                var currentPowerUp = playerStorage.GetCurrentPowerUp();
+                if (_isChainActive)
+                {
+                    Debug.Log("Bitch gets affected");
+                    var castedPowerUp = (ChainPowerUp)currentPowerUp;
+
+                    if (castedPowerUp.GetEnemy() == null) {
+                        Debug.Log("Bitch gets set");
+                        castedPowerUp.SetEnemy(enemy);
+                    }
+                }
             }
             else if (collision.collider.tag == "Ground")
             {
                 AudioController.Instance.PlaySound("Ground");
+
             }
             else if (collision.collider.tag == "Ramp")
             {
                 Ramp ramp = collision.collider.gameObject.GetComponent<Ramp>();
                 playerRigidbody.AddForce(transform.forward * ramp.pushStrength);
+
             }
         }
 
