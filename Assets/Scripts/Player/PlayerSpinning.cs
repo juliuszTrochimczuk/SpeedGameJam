@@ -19,18 +19,15 @@ namespace Player
 
         [SerializeField] private float slowingDownTime;
         [SerializeField] private float baseStrength = 1;
-        [SerializeField] private float spinningSpeed=1000000;
-
-        [SerializeField] private GameObject playerBoard;
-        [SerializeField] private GameObject playerBody;
-        [SerializeField] private GameObject playerShell;
         
+        private Animator anim;
         
 
         private void Awake()
         {
             movement = GetComponent<PlayerMovement>();
             statesHandler = GetComponent<PlayerStatesHandler>();
+            anim = GetComponentInChildren<Animator>();
         }
 
         private void FixedUpdate()
@@ -41,15 +38,12 @@ namespace Player
             if (!Physics.Raycast(transform.position, Vector3.down, 0.55f, LayerMask.GetMask("Ground")))
                 return;
             
-            playerShell.transform.Rotate(Vector3.forward  *spinningSpeed* Time.fixedDeltaTime);
-            
             if (speedingUpCoroutine == null && slowingDownCoroutine == null)
                 slowingDownCoroutine = StartCoroutine(LerpingStrengthDown(baseStrength, slowingDownTime));
             else if (speedingUpCoroutine == null && slowingDownTime != 0)
                 StopCoroutine(slowingDownCoroutine);
 
-            transform.Translate(movement.Speed * Time.fixedDeltaTime * direction * strength, Space.World);
-                
+                transform.Translate(movement.Speed * Time.fixedDeltaTime * direction * strength, Space.World);
         }
          
         public void Spinning(InputAction.CallbackContext context)
@@ -59,18 +53,16 @@ namespace Player
 
             context.action.performed += _ =>
             {
-                playerBoard.SetActive(false);
-                playerBody.SetActive(false);
+                transform.localScale = new Vector3(1, 0.5f, 1);
                 statesHandler.CurrentState = PlayerStatesHandler.PlayerState.Spinning;
                 direction = transform.forward;
+                anim.SetBool("Spin", true);
             };
             context.action.canceled += _ =>
             {
-                playerBoard.SetActive(true);
-                playerBody.SetActive(true);
-                playerShell.transform.rotation = Quaternion.Euler(playerBody.transform.rotation.eulerAngles.x, playerBody.transform.rotation.eulerAngles.y, playerBody.transform.eulerAngles.z);
-                
+                transform.localScale = new Vector3(1, 0.5f, 3);
                 statesHandler.CurrentState = PlayerStatesHandler.PlayerState.Moving;
+                anim.SetBool("Spin", false);
             };
         }
 
