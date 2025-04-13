@@ -116,7 +116,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4428019254442663272}
+  m_Father: {fileID: 6335529008244284376}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &7562850089986501339
 Camera:
@@ -602,7 +602,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc36b67fdf654144ae5464a49071b99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedDecreasingTime: 5
+  speedDecreasingTime: 8
   strength: 1
 --- !u!114 &5301268137465373448
 MonoBehaviour:
@@ -744,7 +744,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6335529008244284376}
-  - {fileID: 4815666551374531523}
   - {fileID: 1953143460520741830}
   - {fileID: 8133337581607715843}
   m_Father: {fileID: 0}
