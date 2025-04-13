@@ -1,4 +1,5 @@
 using System;
+using Controllers;
 using ExtensionMethods;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -116,13 +117,13 @@ namespace Player
             {
                 accelerationButtonPressedTime = inverseAcceleration.Evaluate(accelerationButtonPressedTime);
                 isAccelerating = true;
-                AudioController.Instance.Playsound("Movement");
+                AudioController.Instance.PlaySound("Movement");
             };
             context.action.canceled += _ =>
             {
                 accelerationButtonPressedTime = inverseDecceleration.Evaluate(accelerationButtonPressedTime);
                 isAccelerating = false;
-                AudioController.Instance.Stopsound("Movement");
+                AudioController.Instance.StopSound("Movement");
             };
         }
 

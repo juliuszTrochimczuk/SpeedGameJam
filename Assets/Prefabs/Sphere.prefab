@@ -119,4 +119,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rangeDistance: 2
+  sprite: {fileID: 21300000, guid: 202cb341384a64c419eee8a94283d2d9, type: 3}
   multiplier: 2

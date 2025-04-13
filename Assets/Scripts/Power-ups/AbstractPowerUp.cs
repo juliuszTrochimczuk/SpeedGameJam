@@ -12,8 +12,8 @@ namespace PowerUps
         [SerializeField]private float rangeDistance;
         protected Transform playerThatActivated;
         [SerializeField] private Sprite sprite;
-
-
+        public Sprite Sprite => sprite;
+        
         public void Awake()
         {
             players = GameObject.FindGameObjectsWithTag("Player").ToList();
@@ -49,10 +49,6 @@ namespace PowerUps
             newPowerUp.playerThatActivated = player;
             //DeepCopy(newPowerUp);
             return newPowerUp;
-        }
-
-        public Sprite GetSprite() {
-            return sprite;
         }
     }
 }
