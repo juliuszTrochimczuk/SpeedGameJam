@@ -1,6 +1,5 @@
-using Controllers;
 using System.Collections;
-using System.Runtime.InteropServices;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,10 +11,15 @@ namespace Player
         private PlayerStatesHandler statesHandler;
 
         private Vector3 direction;
-        private Coroutine lerpingSpeed;
+        private Coroutine slowingDownCoroutine;
+        private Coroutine speedingUpCoroutine;
 
-        [SerializeField] private float speedDecreasingTime;
-        [SerializeField] private float strength = 1;
+        private float strength;
+        public float Strength => strength;
+
+        [SerializeField] private float slowingDownTime;
+        [SerializeField] private float baseStrength = 1;
+        
 
         private void Awake()
         {
@@ -31,11 +35,14 @@ namespace Player
             if (!Physics.Raycast(transform.position, Vector3.down, 0.55f, LayerMask.GetMask("Ground")))
                 return;
 
-            transform.Translate(movement.Speed * Time.fixedDeltaTime * direction * strength, Space.World);
-            if (strength == 1)
-                movement.Speed -= 0.5f * Time.fixedDeltaTime;
-        }
+            if (speedingUpCoroutine == null && slowingDownCoroutine == null)
+                slowingDownCoroutine = StartCoroutine(LerpingStrengthDown(baseStrength, slowingDownTime));
+            else if (speedingUpCoroutine == null && slowingDownTime != 0)
+                StopCoroutine(slowingDownCoroutine);
 
+                transform.Translate(movement.Speed * Time.fixedDeltaTime * direction * strength, Space.World);
+        }
+         
         public void Spinning(InputAction.CallbackContext context)
         {
             if (statesHandler.CurrentState == PlayerStatesHandler.PlayerState.Not_In_Move)
@@ -46,49 +53,49 @@ namespace Player
                 transform.localScale = new Vector3(1, 0.5f, 1);
                 statesHandler.CurrentState = PlayerStatesHandler.PlayerState.Spinning;
                 direction = transform.forward;
-                lerpingSpeed = StartCoroutine(LerpingSpeed());
             };
             context.action.canceled += _ =>
             {
                 transform.localScale = new Vector3(1, 0.5f, 3);
                 statesHandler.CurrentState = PlayerStatesHandler.PlayerState.Moving;
-                StopCoroutine(lerpingSpeed);
             };
         }
 
         public void ChangeDirection(Vector3 direction) => this.direction = direction;
 
-        public void ChangeStrength(float newStrength, float duration)
+        public void ChangeStrength(float addition, float duration)
         {
-            strength = newStrength;
-            StartCoroutine(LerpingStrength(duration));
+            if (speedingUpCoroutine != null)
+                StopCoroutine(speedingUpCoroutine);
+            speedingUpCoroutine = StartCoroutine(LerpingStrengthUp(strength + addition, duration));
         }
 
-        private IEnumerator LerpingStrength(float duration)
+        private IEnumerator LerpingStrengthUp(float targetStrength, float duration)
         {
             float time = 0.0f;
             float oldStrength = strength;
             while (time < duration)
             {
-                strength = Mathf.Lerp(oldStrength, 1, time / duration);
+                strength = Mathf.Lerp(oldStrength, targetStrength, time / duration);
                 time += Time.deltaTime;
                 yield return new WaitForEndOfFrame();
             }
-            strength = 1;
+            strength = targetStrength;
+            speedingUpCoroutine = null;
         }
-
-        private IEnumerator LerpingSpeed()
+        
+        private IEnumerator LerpingStrengthDown(float targetStrength, float duration)
         {
-            float oldSpeed = movement.Speed;
             float time = 0.0f;
-            while (time < speedDecreasingTime)
+            float oldStrength = strength;
+            while (time < duration)
             {
-                movement.Speed = Mathf.Lerp(oldSpeed, 0, time / speedDecreasingTime);
-                if (strength == 1)
-                    time += Time.deltaTime;
+                strength = Mathf.Lerp(oldStrength, targetStrength, time / duration);
+                time += Time.deltaTime;
                 yield return new WaitForEndOfFrame();
             }
-            movement.Speed = 0;
+            strength = targetStrength;
+            slowingDownCoroutine = null;
         }
     }
 }
