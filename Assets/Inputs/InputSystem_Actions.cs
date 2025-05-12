@@ -80,6 +80,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""1fd76010-64ed-4b55-b92f-4f25095f18a1"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -258,6 +267,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""action"": ""CameraRotationSwitch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ce923183-0dd0-4359-9ea8-1210def5bb61"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -367,6 +387,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Spinning = m_Player.FindAction("Spinning", throwIfNotFound: true);
         m_Player_MouseX = m_Player.FindAction("MouseX", throwIfNotFound: true);
         m_Player_CameraRotationSwitch = m_Player.FindAction("CameraRotationSwitch", throwIfNotFound: true);
+        m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         // General_Purpose
@@ -446,6 +467,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Spinning;
     private readonly InputAction m_Player_MouseX;
     private readonly InputAction m_Player_CameraRotationSwitch;
+    private readonly InputAction m_Player_Look;
     public struct PlayerActions
     {
         private @InputSystem_Actions m_Wrapper;
@@ -456,6 +478,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         public InputAction @Spinning => m_Wrapper.m_Player_Spinning;
         public InputAction @MouseX => m_Wrapper.m_Player_MouseX;
         public InputAction @CameraRotationSwitch => m_Wrapper.m_Player_CameraRotationSwitch;
+        public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -483,6 +506,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @CameraRotationSwitch.started += instance.OnCameraRotationSwitch;
             @CameraRotationSwitch.performed += instance.OnCameraRotationSwitch;
             @CameraRotationSwitch.canceled += instance.OnCameraRotationSwitch;
+            @Look.started += instance.OnLook;
+            @Look.performed += instance.OnLook;
+            @Look.canceled += instance.OnLook;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -505,6 +531,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @CameraRotationSwitch.started -= instance.OnCameraRotationSwitch;
             @CameraRotationSwitch.performed -= instance.OnCameraRotationSwitch;
             @CameraRotationSwitch.canceled -= instance.OnCameraRotationSwitch;
+            @Look.started -= instance.OnLook;
+            @Look.performed -= instance.OnLook;
+            @Look.canceled -= instance.OnLook;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -659,6 +688,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         void OnSpinning(InputAction.CallbackContext context);
         void OnMouseX(InputAction.CallbackContext context);
         void OnCameraRotationSwitch(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
