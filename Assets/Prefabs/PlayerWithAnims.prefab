@@ -262,7 +262,6 @@ MonoBehaviour:
   rotationSpeed: 100
   maxYawAngle: 179.5
   resetSpeed: 5
-  rotationX: {fileID: 0}
 --- !u!1 &4259653060166802515
 GameObject:
   m_ObjectHideFlags: 0
@@ -1080,7 +1079,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slowingDownTime: 0
-  baseStrength: 1
+  baseStrength: 4
   spinningSpeed: 500
   playerBoard: {fileID: 9060642676685880710}
   playerBody: {fileID: 1933653719497707566}
