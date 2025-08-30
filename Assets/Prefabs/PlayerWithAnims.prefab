@@ -259,9 +259,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7a3aaa8b93a8a145983a34d16d0dc7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 100
-  maxYawAngle: 179.5
-  resetSpeed: 5
+  rotationSpeed: 60
+  maxYawAngle: 90
+  resetSpeed: 2
 --- !u!1 &4259653060166802515
 GameObject:
   m_ObjectHideFlags: 0
@@ -843,6 +843,7 @@ GameObject:
   - component: {fileID: 8506475809347914288}
   - component: {fileID: 2834687463719286300}
   - component: {fileID: 2502668013219933793}
+  - component: {fileID: 4133843865517716272}
   m_Layer: 0
   m_Name: Player_Object
   m_TagString: Player
@@ -965,7 +966,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 64
   m_CollisionDetection: 3
 --- !u!114 &4077340032055374705
 MonoBehaviour:
@@ -1109,6 +1110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13eb4293d0ba0a14589c88b94ec92c1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraTarget: {fileID: 2953969374756971769}
 --- !u!114 &2502668013219933793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1122,6 +1124,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   winningWindowUI: {fileID: 2792389414874112716}
+--- !u!114 &4133843865517716272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8901876791493137922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7066d0040d7173a4cba78e27377b77cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8960025466627514205
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class RightStickControlledRotation : MonoBehaviour
+public class RightStickYRotation : MonoBehaviour
 {
     public float rotationSpeed = 100f;
     public float maxYawAngle = 45f;
@@ -32,5 +32,16 @@ public class RightStickControlledRotation : MonoBehaviour
         }
 
         transform.localRotation = Quaternion.Euler(0f, currentYaw, 0f);
+    }
+
+    public void SetCurrentYaw(float newYaw)
+    {
+        currentYaw = newYaw;
+        currentYaw = Mathf.Clamp(currentYaw, -180, 180);
+    }
+
+    public float GetCurrentYaw()
+    {
+        return currentYaw;
     }
 }

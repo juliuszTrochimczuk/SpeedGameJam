@@ -25,6 +25,8 @@ namespace Player
         [SerializeField] private GameObject playerBody;
         [SerializeField] private GameObject playerShell;
         
+        //private Vector3 spinningDirection = new Vector3(0,0,1);
+        
         
         private Animator anim;
         
@@ -52,7 +54,6 @@ namespace Player
                 StopCoroutine(slowingDownCoroutine);
 
             transform.Translate(movement.Speed * Time.fixedDeltaTime * direction * strength, Space.World);
-                
         }
          
         public void Spinning(InputAction.CallbackContext context)

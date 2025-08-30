@@ -17,6 +17,8 @@ namespace Player
         
         private bool _isChainActive;
 
+        [SerializeField] private RightStickYRotation cameraTarget;
+
         private void Awake()
         {
             movement = GetComponent<PlayerMovement>();
@@ -36,8 +38,10 @@ namespace Player
                     Vector3 spinDirection = Vector3.Reflect(movement.transform.forward, collision.contacts[0].normal);
                     spinning.ChangeDirection(spinDirection);
                     spinning.ChangeStrength(0.5f, 0.4f);
-                    StartCoroutine(CameraDelay());
+                    //StartCoroutine(CameraDelay(cameraTarget.transform.rotation));
+                    Quaternion cachedRotation = transform.rotation;
                     transform.LookAt(transform.position + spinDirection);
+                    cameraTarget.SetCurrentYaw(cachedRotation.eulerAngles.y - transform.rotation.eulerAngles.y);
                 }
             }
             else if (collision.collider.tag == "Dynamic_Obstacles")
@@ -55,8 +59,10 @@ namespace Player
                     spinning.ChangeDirection(spinDirection);
                     Bouncer bouncer = collision.collider.gameObject.GetComponent<Bouncer>();
                     spinning.ChangeStrength(bouncer.spinStrength, bouncer.spinDuration);
-                    StartCoroutine(CameraDelay());
+                    //StartCoroutine(CameraDelay(cameraTarget.transform.rotation));
+                    Quaternion cachedRotation = transform.rotation;
                     transform.LookAt(transform.position + spinDirection);
+                    cameraTarget.SetCurrentYaw(cachedRotation.eulerAngles.y);
                 }
             }
             else if (collision.collider.tag == "Player")
@@ -96,11 +102,23 @@ namespace Player
             }
         }
 
-        private IEnumerator CameraDelay()
+        private IEnumerator CameraDelay(Quaternion targetRotation)
         {
-            virtualCamera.Follow = null;
+            //virtualCamera.Follow = null;
+            //yield return new WaitForSeconds(0.5f);
+            //virtualCamera.Follow = gameObject.transform;
+            
+            // var transposer = virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
+            // if (transposer)
+            // {
+            //     //transposer.m_PitchDamping = 20f;
+            //     transposer.m_YawDamping = 20f;
+            // }
             yield return new WaitForSeconds(0.5f);
-            virtualCamera.Follow = gameObject.transform;
+            // //transposer.m_PitchDamping = 0f;
+            // transposer.m_YawDamping = 0f;
+            
+            
         }
 
         public void SetChainActivated(bool chainActivated)

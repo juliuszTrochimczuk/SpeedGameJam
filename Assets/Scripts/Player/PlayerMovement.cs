@@ -73,6 +73,7 @@ namespace Player
 
             statesHandler = GetComponent<PlayerStatesHandler>();
             rb = GetComponent<Rigidbody>();
+            //rb.constraints = RigidbodyConstraints.FreezeRotationZ;
             
             anim = GetComponentInChildren<Animator>();
         }
@@ -91,12 +92,12 @@ namespace Player
             if (Physics.Raycast(transform.position, Vector3.down, Mathf.Infinity, LayerMask.GetMask("Ground")))
             {
                 fallOffEnergy = false;
-                rb.constraints = RigidbodyConstraints.FreezeRotationZ;
+                //rb.constraints = RigidbodyConstraints.FreezeRotationZ;
                 Move();
             }
             else
             {
-                rb.constraints = RigidbodyConstraints.None;
+                //rb.constraints = RigidbodyConstraints.None;
                 if (!fallOffEnergy)
                 {
                     rb.AddForce(Speed * transform.forward, ForceMode.VelocityChange);
@@ -110,11 +111,6 @@ namespace Player
                 transform.rotation = Quaternion.Euler(0, 0, 0);
 
             Rotate();
-            transform.rotation = Quaternion.Euler(
-                rb.constraints == RigidbodyConstraints.FreezeRotationX ? 0.0f : transform.rotation.eulerAngles.x, 
-                rb.constraints == RigidbodyConstraints.FreezeRotationY ? 0.0f: transform.rotation.eulerAngles.y, 
-                0.0f
-            );
         }
 
         public void DetectAcceleration(InputAction.CallbackContext context)
